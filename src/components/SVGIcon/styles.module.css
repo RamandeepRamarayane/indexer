@@ -1,0 +1,30 @@
+.wrapper div {
+  height: inherit;
+  width: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  display: inline-block;
+}
+.focus {
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.focus1 {
+  border: solid 4px #0079e4;
+  border-radius: var(--border-radius-3x);
+  background-color: var(--primary-color88);
+  z-index: 1111;
+  position: relative;
+  box-shadow: 0 0 20px 0 #007ae44e;
+}

@@ -1,0 +1,134 @@
+.button {
+  border: none;
+  background-color: #486ff2;
+  width: 100%;
+  padding: 9px 0;
+  font-size: 18px;
+  text-align: center;
+  color: #fafafb;
+  cursor: pointer;
+  transition: 0.3s background-color ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  position: relative;
+  border-radius: 6px;
+}
+
+.button:disabled {
+  cursor: initial;
+}
+
+.lockIcon {
+  position: absolute;
+  bottom: 1px;
+  font-size: 10px;
+  right: 1px;
+  color: #5f5f5fcc;
+}
+
+.button:hover .lockedMessageContainer {
+  display: block;
+}
+
+.lockedMessage {
+  width: 230px;
+  padding: 19px 11px 15px 12px;
+  border-radius: var(--border-radius-3x);
+  box-shadow: 5px 10px 13px 0 rgba(0, 0, 0, 0.11);
+  background-color: #fff;
+  white-space: break-spaces;
+  z-index: 50;
+  text-align: left;
+}
+
+.transparent {
+  color: transparent;
+  height: 10px;
+}
+
+.lockedMessageContainer {
+  display: none;
+  position: absolute;
+  right: -52px;
+  padding-top: 10px;
+}
+
+.lockedMessage::after {
+  position: absolute;
+  content: "";
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  top: 0px;
+  right: 48px;
+  border-bottom: 10px solid #fff;
+  border-top: none;
+}
+
+.button:hover:not(:disabled) {
+  transition: all 0.2s;
+  box-shadow: 0 2.5px 2.5px 0 rgb(33 45 76 / 10%);
+  transform: scale(1.009);
+}
+
+.button:hover {
+  /* filter: saturate(2); */
+}
+
+.disabled {
+  filter: opacity(0.7);
+  cursor: default;
+}
+
+.button.secondary {
+  background-color: #fefefe;
+  border: 1px solid #eeeff2;
+  color: #383e55;
+}
+
+.button.secondary:hover:not(:disabled) {
+  background-color: #fefefe;
+  border: 1px solid gray;
+}
+
+.button.tertiary {
+  border: solid 1px #29394a;
+  background-color: #ffffff;
+  color: #29394a;
+}
+
+.button.tertiary:hover:not(:disabled) {
+  background-color: #f5f5f5;
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.buttonContent.iconReverse {
+  flex-direction: row-reverse;
+}
+
+.buttonIcon {
+  margin-left: 3%;
+  font-size: 20px;
+}
+
+.buttonIcon.iconReverse {
+  margin-left: 0;
+  margin-right: 3%;
+}
+
+.disabled {
+  cursor: auto;
+  opacity: 0.65;
+}
+
+.button * {
+  color: inherit !important;
+}

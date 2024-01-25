@@ -1,0 +1,92 @@
+.authWrapper {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+._left {
+  min-width: 470px;
+  background-color: white;
+  padding: 15px;
+}
+
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  margin-top: 70px;
+}
+
+.metaLogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tagline {
+  font-weight: 700;
+  color: #2d385e;
+  font-size: 24px;
+}
+
+.subtext {
+  font-size: 16px;
+  font-weight: 400;
+  color: #44525f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.loginWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px 40px;
+  margin-top: 20px;
+}
+
+.bottomWrapper {
+  width: 100%;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.rememberMeCta {
+  cursor: pointer;
+  color: #666;
+}
+
+.forgotPwdCta {
+  color: #4f77ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.forgotPwdCta:hover {
+  text-decoration: underline;
+}
+
+.authWrapper ._right {
+  background-color: #2e385d;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: -1;
+}
