@@ -26,9 +26,9 @@ const Auth = () => {
         <div className={styles.wrapper}>
           <div className={styles.metaLogin}>
             <div className={styles.tagline}>
-              {/* {isSignup
+              {isSignup
                 ? "Signup for your Bulk Indexer account"
-                : "Login to your Bulk Indexer account"} */}
+                : "Login to your Bulk Indexer account"}
             </div>
             <div className={styles.subtext}>
               {isSignup ? "Already have an account!" : "Don't have an account?"}
