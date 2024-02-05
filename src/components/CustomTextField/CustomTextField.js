@@ -15,6 +15,7 @@ const TextField = ({
   type = "",
   inputStyles = {},
   variant = "default",
+  props = {},
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -23,8 +24,13 @@ const TextField = ({
       <Input
         id={type}
         type={
-          variant == "password" ? (showPassword ? "text" : "password") : "text"
+          variant?.toLowerCase() == "password"
+            ? showPassword
+              ? "text"
+              : "password"
+            : "text"
         }
+        {...props}
         aria-describedby={type}
         placeholder={placeholder}
         style={{ ...inputStyles, width: "100%", height: "50px" }}

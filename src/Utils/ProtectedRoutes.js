@@ -1,10 +1,12 @@
 import React from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import { isLoggedIn } from "./constants";
+import combinedStore from "../zustore/combinedStore";
 
 const ProtectedRoutes = ({ children }) => {
-  return isLoggedIn ? (
+  const isAuthenticated = combinedStore((state) => state.isAuthenticated);
+  console.log("zustand", isAuthenticated);
+  return isAuthenticated ? (
     <Routes>
       <Route path="" element={<Dashboard />}>
         <Route path="about" element={<div>About </div>} />

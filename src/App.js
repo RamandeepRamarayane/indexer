@@ -13,6 +13,9 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import Auth from "./pages/Auth/Auth";
 import ProtectedRoutes from "./Utils/ProtectedRoutes";
+import { useEffect } from "react";
+import { useStore } from "zustand";
+import combinedStore from "./zustore/combinedStore";
 
 function App() {
   return (

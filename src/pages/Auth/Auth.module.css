@@ -9,6 +9,7 @@
   min-width: 470px;
   background-color: white;
   padding: 15px;
+  max-width: 470px;
 }
 
 .logoWrapper {
@@ -63,6 +64,13 @@
   justify-content: space-between;
   font-size: 16px;
   margin-top: 10px;
+}
+
+.policy_terms {
+  width: 90%;
+  text-align: center;
+  margin: auto;
+  margin-top: 20px;
 }
 
 .rememberMeCta {

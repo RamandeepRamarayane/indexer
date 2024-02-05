@@ -1,26 +1,20 @@
 import React, { useEffect } from "react";
 import styles from "./Auth.module.css";
 import Login from "./Login";
-import {
-  Link,
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import SingUp from "./SignUp";
+import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
-import { RedirectTo } from "../../Utils/RedirectTo";
-import { isLoggedIn } from "../../Utils/constants";
+import combinedStore from "../../zustore/combinedStore";
 
 const Auth = () => {
   const location = useLocation();
   console.log("location", location);
-
+  const isAuthenticated = combinedStore((state) => state.isAuthenticated);
   const isSignup = location.pathname.includes("/signup");
+  console.log("zustand", isAuthenticated);
 
-  return (
+  return isAuthenticated ? (
+    <Navigate to="/dashboard" replace />
+  ) : (
     <div className={styles.authWrapper}>
       <div className={styles._left}>
         <div className={styles.logoWrapper}>
@@ -32,9 +26,9 @@ const Auth = () => {
         <div className={styles.wrapper}>
           <div className={styles.metaLogin}>
             <div className={styles.tagline}>
-              {isSignup
+              {/* {isSignup
                 ? "Signup for your Bulk Indexer account"
-                : "Login to your Bulk Indexer account"}
+                : "Login to your Bulk Indexer account"} */}
             </div>
             <div className={styles.subtext}>
               {isSignup ? "Already have an account!" : "Don't have an account?"}
