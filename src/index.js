@@ -2,42 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import {
-  BrowserRouter,
-  Navigate,
-  Outlet,
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-import Auth from "./pages/Auth/Auth";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import ErrorPage from "./ErrorPage";
-import Login from "./pages/Auth/Login";
-import SingUp from "./pages/Auth/SignUp";
-import Dashboard from "./pages/Dashboard/Dashboard";
-// const router = createBrowserRouter(
-//   createRoutesFromElements(
-//     <>
-//       <Route path="/" element={<App />}>
-//         <Route path="" element={<Navigate to={"dashboard"} replace />} />
-//         <Route path="dashboard" element={<Dashboard />} />
-//         <Route path="auth" element={<Auth />}>
-//           <Route path="login" element={<Login />} />
-//           <Route path="signup" element={<SingUp />} />
-//         </Route>
-//       </Route>
 
-//       <Route
-//         path="*"
-//         element={
-//           <Navigate to="/" state={{ from: window.location.pathname }} replace />
-//         }
-//       />
-//     </>
-//   )
-// );
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>

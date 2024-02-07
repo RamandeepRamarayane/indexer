@@ -1,15 +1,10 @@
 import { create } from "zustand";
-import { useAuthStore } from "./auht";
-import zukeeper from "zukeeper";
+import { useAuthStore } from "./auth";
 
-const useCombinedStore = create(
-  zukeeper((...a) => ({
-    appLoading: false,
-    setAppLoading: (loading) => ({ appLoading: loading }),
-    ...useAuthStore(...a),
-  }))
-);
-
-window.store = useCombinedStore;
+const useCombinedStore = create((...a) => ({
+  appLoading: false,
+  setAppLoading: (loading) => ({ appLoading: loading }),
+  ...useAuthStore(...a),
+}));
 
 export default useCombinedStore;

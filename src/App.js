@@ -43,8 +43,7 @@ function App() {
         <Progress />
       ) : isAuthenticated ? (
         <Routes>
-          <Route path="dashboard/*" element={<ProtectedRoutes />} />
-          <Route path={"*"} element={<Navigate to={"/dashboard"} replace />} />
+          <Route path={"*"} element={<ProtectedRoutes />} />
         </Routes>
       ) : (
         <Routes>

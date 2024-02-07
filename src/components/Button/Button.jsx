@@ -80,7 +80,7 @@ export default function Button({
   tertiary,
   iconReverse,
   loadingTextReverse,
-  width = "100%",
+  width = "max-content",
   fontSize = 16,
   height = 40,
   fontWeight = 500,

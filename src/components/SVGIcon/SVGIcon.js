@@ -37,7 +37,7 @@ const SVGIcon = React.memo(
     size,
     hover,
     transform,
-    src = "",
+    src = "/assets/svg/info.svg",
     outerRef,
     style,
     ...props
