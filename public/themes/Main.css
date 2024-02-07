@@ -1,0 +1,9 @@
+:root {
+  --primary-color1: rgb(244, 114, 182);
+  --primary-color1-op01: rgb(253, 242, 248);
+  --secondary-color1: #000000;
+
+  --fw-reg: 400;
+  --fw-sb: 500;
+  --fw-b: 600;
+}

@@ -1,21 +1,80 @@
 import React, { useState } from "react";
 import styles from "./Auth.module.css";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
 import { Checkbox } from "@mui/material";
 import Button from "../../components/Button/Button";
+import { emailValidator, pwdValidator } from "../../utilityFunctions";
+import combinedStore from "../../zustore/combinedStore";
 
 const SignUp = () => {
+  const signUpRequest = combinedStore((state) => state.signUpRequest);
   const [rememberMe, setRememberMe] = useState(false);
+  const [password, setPassword] = useState("R1234567");
+  const [email, setEmail] = useState("rxy@yopmail.com");
+  const [company, setCompany] = useState("YopMail");
+  const [name, setName] = useState("Yop Mail");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const [isValid, errorMsg] = pwdValidator(password);
+    const [isValidE, errorMsgE] = emailValidator(email);
+
+    if (isValid && isValidE && name.trim()) {
+      setLoading(true);
+      await signUpRequest({ name, email, password, company, navigate });
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      <CustomTextField label="" placeholder={"Email address"} />
-      <CustomTextField label="" placeholder={"Name"} />
-      <CustomTextField variant={"Password"} label="" placeholder={"Password"} />
+      <CustomTextField
+        label=""
+        placeholder={"Email address"}
+        props={{
+          value: email,
+          onChange: (e) => {
+            setEmail(e.target.value);
+          },
+        }}
+      />
+      <CustomTextField
+        label=""
+        placeholder={"Company Name"}
+        props={{
+          value: company,
+          onChange: (e) => {
+            setCompany(e.target.value);
+          },
+        }}
+      />
+      <CustomTextField
+        label=""
+        placeholder={"Name"}
+        props={{
+          value: name,
+          onChange: (e) => {
+            setName(e.target.value);
+          },
+        }}
+      />
+      <CustomTextField
+        variant={"Password"}
+        label=""
+        placeholder={"Password"}
+        props={{
+          value: password,
+          onChange: (e) => {
+            setPassword(e.target.value);
+          },
+        }}
+      />
       <div className={styles.bottomWrapper}>
         <Button
-          handler={() => {}}
+          handler={handleRegister}
           height={40}
           text={"Signup"}
           style={{ padding: "10px 9px", marginTop: "15px" }}

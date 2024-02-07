@@ -1,3 +1,6 @@
 export const screens = {
-  verify: "/verify",
+  verify: "/auth/verify",
+  login: "/auth/login",
+  register: "/auth/register",
+  dashboard: "/dashboard",
 };

@@ -1,12 +1,24 @@
-import React from "react";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import combinedStore from "../zustore/combinedStore";
+import Progress from "../components/Progress/Progress";
 
 const ProtectedRoutes = ({ children }) => {
-  const isAuthenticated = combinedStore((state) => state.isAuthenticated);
-  console.log("zustand", isAuthenticated);
-  return isAuthenticated ? (
+  const [loading, setLoading] = useState(false);
+  const { loginViaToken, isVerifyingToken, isAuthenticated } = combinedStore(
+    (state) => state
+  );
+  const navigate = useNavigate();
+
+  useEffect(() => {}, [isAuthenticated]);
+
+  return loading ? (
+    <div>
+      Dash
+      <Progress />
+    </div>
+  ) : isAuthenticated ? (
     <Routes>
       <Route path="" element={<Dashboard />}>
         <Route path="about" element={<div>About </div>} />

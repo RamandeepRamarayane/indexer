@@ -1,18 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Auth.module.css";
 import Login from "./Login";
-import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
 import combinedStore from "../../zustore/combinedStore";
+import Progress from "../../components/Progress/Progress";
 
 const Auth = () => {
   const location = useLocation();
   console.log("location", location);
-  const isAuthenticated = combinedStore((state) => state.isAuthenticated);
+  const { setAppLoading, isAuthenticated } = combinedStore((state) => state);
   const isSignup = location.pathname.includes("/signup");
   console.log("zustand", isAuthenticated);
+  const [loading, setLoading] = useState(false);
+  const loginViaToken = combinedStore((state) => state.loginViaToken);
+  const navigate = useNavigate();
 
-  return isAuthenticated ? (
+  return loading ? (
+    <div>
+      Auth
+      <Progress />
+    </div>
+  ) : isAuthenticated ? (
     <Navigate to="/dashboard" replace />
   ) : (
     <div className={styles.authWrapper}>
