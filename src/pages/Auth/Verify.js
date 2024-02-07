@@ -16,7 +16,6 @@ const Verify = () => {
       url: `${endPoints.verify}?token=${token}`,
     });
     if (res.status == 200 || res.status == 201) {
-      debugger;
       authSuccess({
         userInfo: { ...res.data.user },
         token: res.data.tokens.access.token,

@@ -7,7 +7,7 @@ export const useAuthStore = (set) => ({
   userInfo: {},
   loginRequest: async ({ email, password, navigate, rememberMe = false }) => {
     set({ error: "" });
-    set({ userInfo: { userEmail: email } });
+    set({ userInfo: { email: email } });
     const res = await postData({
       url: endPoints.login,
       payload: { email, password },
@@ -20,8 +20,7 @@ export const useAuthStore = (set) => ({
       navigate && navigate(screens.verify);
       set({
         userInfo: {
-          userEmail: email,
-          userName: "",
+          email: email,
         },
       });
     } else {

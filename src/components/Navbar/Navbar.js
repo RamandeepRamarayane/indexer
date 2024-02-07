@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import Button from "../Button/Button";
 import combinedStore from "../../zustore/combinedStore";
+import { useNavigate } from "react-router-dom";
+import { screens } from "../../screens";
 
 const Navbar = () => {
-  const logoutRequest = combinedStore((state) => state.logoutRequest);
-  const userInfo = combinedStore((state) => state.userInfo);
+  const { logoutRequest, userInfo } = combinedStore((state) => state);
+  const navigate = useNavigate();
   useEffect(() => {
     console.log("dsafadsfasd", userInfo);
   }, [userInfo]);
@@ -23,8 +25,8 @@ const Navbar = () => {
         />
       </div>
       <div className={styles.right}>
-        {!!userInfo?.email && (
-          <div className={styles.greetText}>Welcome {userInfo?.email}</div>
+        {!!userInfo?.name && (
+          <div className={styles.greetText}>Welcome {userInfo?.name}</div>
         )}
         <Button
           text={"Logout"}

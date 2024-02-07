@@ -2,8 +2,11 @@
   --primary-color1: rgb(244, 114, 182);
   --primary-color1-op01: rgb(253, 242, 248);
   --secondary-color1: #000000;
+  --tertiary-color1: #64748b;
+  --tertiary-color2: #6b6b6b;
 
   --fw-reg: 400;
-  --fw-sb: 500;
+  --fw-med: 500;
+  --fw-sb: 600;
   --fw-b: 600;
 }

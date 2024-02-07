@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import combinedStore from "../zustore/combinedStore";
 import Progress from "../components/Progress/Progress";
+import Wrapper from "../components/Wrapper/Wrapper";
 
 const ProtectedRoutes = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -18,11 +19,10 @@ const ProtectedRoutes = ({ children }) => {
     </div>
   ) : isAuthenticated ? (
     <Routes>
-      <Route path="" element={<Dashboard />}>
-        <Route path="about" element={<div>About </div>} />
-        <Route path="1" element={<div>About </div>} />
+      <Route path="*" element={<Wrapper />}>
+        <Route path="dashboard" exact element={<Dashboard />} />
+        <Route path="about" exact element={<div>About </div>} />
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   ) : (
     <Navigate to="/auth/login" replace />
