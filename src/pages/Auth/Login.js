@@ -90,7 +90,8 @@ const Login = () => {
         <Button
           handler={handleLogin}
           height={40}
-          text={"Login with email"}
+          width={"100%"}
+          text={"Login"}
           style={{ padding: "10px 9px", marginTop: "15px" }}
           loading={loading}
         />

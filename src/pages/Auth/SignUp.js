@@ -78,6 +78,7 @@ const SignUp = () => {
           height={40}
           text={"Signup"}
           loading={loading}
+          width={"100%"}
           style={{ padding: "10px 9px", marginTop: "15px" }}
         />
         <div className={styles.policy_terms}>
