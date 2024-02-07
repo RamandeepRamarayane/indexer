@@ -26,6 +26,7 @@ const Login = () => {
         email: email,
         password: password,
         navigate,
+        rememberMe,
       };
       await loginRequest(signInData);
     }

@@ -4,9 +4,8 @@ import { screens } from "../screens";
 
 export const useAuthStore = (set) => ({
   isAuthenticated: false,
-  isVerifyingToken: false,
   userInfo: {},
-  loginRequest: async ({ email, password, navigate }) => {
+  loginRequest: async ({ email, password, navigate, rememberMe = false }) => {
     set({ error: "" });
     set({ userInfo: { userEmail: email } });
     const res = await postData({
@@ -62,5 +61,9 @@ export const useAuthStore = (set) => ({
   logoutRequest: () => {
     localStorage.removeItem("token");
     set({ userInfo: {}, isAuthenticated: false });
+  },
+  authSuccess: ({ userInfo, token }) => {
+    localStorage.setItem("token", token);
+    set({ isAuthenticated: true, userInfo: { ...userInfo } });
   },
 });

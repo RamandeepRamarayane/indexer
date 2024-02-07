@@ -6,9 +6,7 @@ import Progress from "../components/Progress/Progress";
 
 const ProtectedRoutes = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const { loginViaToken, isVerifyingToken, isAuthenticated } = combinedStore(
-    (state) => state
-  );
+  const { loginViaToken, isAuthenticated } = combinedStore((state) => state);
   const navigate = useNavigate();
 
   useEffect(() => {}, [isAuthenticated]);

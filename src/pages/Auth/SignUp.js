@@ -11,10 +11,10 @@ import combinedStore from "../../zustore/combinedStore";
 const SignUp = () => {
   const signUpRequest = combinedStore((state) => state.signUpRequest);
   const [rememberMe, setRememberMe] = useState(false);
-  const [password, setPassword] = useState("R1234567");
-  const [email, setEmail] = useState("rxy@yopmail.com");
-  const [company, setCompany] = useState("YopMail");
-  const [name, setName] = useState("Yop Mail");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleRegister = async (e) => {
@@ -77,6 +77,7 @@ const SignUp = () => {
           handler={handleRegister}
           height={40}
           text={"Signup"}
+          loading={loading}
           style={{ padding: "10px 9px", marginTop: "15px" }}
         />
         <div className={styles.policy_terms}>
