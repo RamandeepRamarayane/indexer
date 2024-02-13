@@ -1,6 +1,6 @@
 .button {
   border: none;
-  background-color: #486ff2;
+  background-color: var(--primary-color1);
   width: 100%;
   padding: 9px 10px;
   font-size: 18px;

@@ -16,6 +16,7 @@ export const useAuthStore = (set) => ({
     if (res.status === 200) {
       localStorage.setItem("token", res.data.tokens.access.token);
       set({ userInfo: { ...res.data.user }, isAuthenticated: true });
+      window.location = "/dashboard";
     } else if (res.status === 202) {
       navigate && navigate(screens.verify);
       set({
@@ -59,6 +60,7 @@ export const useAuthStore = (set) => ({
   },
   logoutRequest: () => {
     localStorage.removeItem("token");
+
     set({ userInfo: {}, isAuthenticated: false });
   },
   authSuccess: ({ userInfo, token }) => {
