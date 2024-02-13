@@ -1,10 +1,9 @@
 .dashboardHeader {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
-  margin-top: 30px;
+  padding: 10px 10px;
 }
 
 .dashboardMeta {
@@ -37,6 +36,7 @@
   background-color: white;
   border-radius: 10px;
   padding: 30px 30px;
+  min-width: 300px;
 }
 
 .wsModal_iconWrap {
@@ -64,6 +64,16 @@
   border-radius: 20px;
 }
 
+.addWSModalWrapper input {
+  border: 1px solid var(--tertiary-color4);
+  border-radius: 4px;
+  padding: 9px 6px;
+}
+
+.addWSModalWrapper input:focus {
+  border: 1px solid var(--tertiary-color1);
+}
+
 .bottomCta {
   display: flex;
   justify-content: space-between;
@@ -71,3 +81,56 @@
   width: 100%;
 }
 /* Add Website Modal Ends */
+
+/* ConnectedSites Starts */
+.dummyRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+}
+
+.noDomainsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  font-weight: 400;
+  padding-top: 40px;
+  color: var(--tertiary-color1);
+}
+
+.emptyIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.connectedSitesTable {
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.siteRowWrapper {
+  border: 1px solid var(--tertiary-color3);
+  padding: 10px;
+  min-height: 60px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.headCtas {
+  width: 200px;
+}
+
+.ctaWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ConnectedSites Ends */

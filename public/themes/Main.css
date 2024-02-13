@@ -1,10 +1,13 @@
 :root {
-  --primary-color1: rgb(244, 114, 182);
-  --primary-color1-op01: rgb(253, 242, 248);
-  --secondary-color1: #000000;
+  /* --primary-color1: rgb(140, 185, 189); */
+  --primary-color1: rgb(67, 118, 108);
+
+  --primary-color1-op01: rgba(140, 185, 189, 0.1);
+  --secondary-color1: #092635;
   --tertiary-color1: #64748b;
   --tertiary-color2: #6b6b6b;
-
+  --tertiary-color3: rgb(216, 216, 216);
+  --tertiary-color4: #dddfe2;
   --fw-reg: 400;
   --fw-med: 500;
   --fw-sb: 600;

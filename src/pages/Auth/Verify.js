@@ -16,10 +16,7 @@ const Verify = () => {
       url: `${endPoints.verify}?token=${token}`,
     });
     if (res.status == 200 || res.status == 201) {
-      authSuccess({
-        userInfo: { ...res.data.user },
-        token: res.data.tokens.access.token,
-      });
+      navigate(screens.login);
     } else {
       navigate(screens.login);
     }

@@ -16,7 +16,9 @@ const Navbar = () => {
       <div className={styles.left}>
         <Button
           text={"Dashboard"}
-          handler={() => {}}
+          handler={() => {
+            navigate(screens.dashboard);
+          }}
           style={{
             color: "var(--primary-color1)",
             fontWeight: "var(--fw-sb)",
