@@ -9,7 +9,7 @@ import { ConnectedSites } from "./ConnectedSites";
 import { AddWebsiteFlow } from "./AddWebsiteFlow";
 
 const Dashboard = () => {
-  const [addWSModal, setAddWSModal] = useState(true);
+  const [addWSModal, setAddWSModal] = useState(false);
 
   const addDomain = async () => {};
 
