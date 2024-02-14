@@ -10,6 +10,11 @@ export const endPoints = {
   deleteDomains: "/api/domain/delete",
   getDomains: "/api/domain",
 
+  // Pages
+  getPages: "/api/pages?domain_name=",
+  addPages: "/api/pages",
+  indexPages: "/api/pages/index",
+
   // sitemap
   addSiteMap: "/api/sitemaps",
   syncSiteMap: "/api/sitemaps/sync",

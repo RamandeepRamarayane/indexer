@@ -1,0 +1,116 @@
+.indexerContainer {
+  width: 100%;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.indexerHeader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px 10px;
+}
+
+.noPagesWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  font-weight: 400;
+  padding-top: 40px;
+  color: var(--tertiary-color1);
+}
+
+.emptyIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.pagesWrapper {
+  width: 80%;
+  margin: auto;
+  border: 1px solid var(--tertiary-color3);
+  border-radius: 9px;
+}
+
+.rowWrapper {
+  overflow: auto;
+  height: calc(100vh - 240px);
+}
+
+.pageHeadRow,
+.pageRowWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.pageHeadRow {
+  background-color: var(--tertiary-color3);
+  padding: 8px 0px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.pageRowWrapper {
+  padding: 6px 0px;
+  border-bottom: 1px solid var(--tertiary-color3);
+}
+
+.pageRowWrapper:last-child {
+  border: none;
+}
+
+.headCheckbox,
+.itemCheckbox {
+  width: 40px;
+}
+
+.headPage,
+.itemPage {
+  min-width: 50%;
+  flex-grow: 1;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pageUrl {
+  max-width: 100%;
+  background-color: var(--primary-color1-op01);
+  border-radius: 3px;
+  padding: 4px 4px;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  overflow: hidden;
+  color: var(--primary-color1);
+}
+
+.headStatus,
+.itemStatus {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headCta,
+.itemCta {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottomCtas {
+  position: absolute;
+  bottom: 0px;
+  box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.1);
+  left: 0px;
+  right: 0px;
+  padding: 10px 20px;
+}
