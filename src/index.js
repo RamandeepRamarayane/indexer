@@ -5,12 +5,15 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
+window.onstorage = (e) => {
+  if (e.key == "token" && localStorage.getItem("token")) {
+    window.location = "";
+  }
+};
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <App />
   </BrowserRouter>
 );
 

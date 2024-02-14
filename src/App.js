@@ -20,27 +20,21 @@ import CustomAlerts from "./components/CustomAlertMessages/CustomAlerts";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const { isAuthenticated, loginViaToken } = useCombinedStore();
+  const { isAuthenticated, loginViaToken } = useCombinedStore((state) => state);
   const navigate = useNavigate();
   useNetworkInterceptor();
-  useEffect(() => {
-    window.onstorage = (e) => {
-      if (e.key == "token" && localStorage.getItem("token")) {
-        window.location = "";
-      }
-    };
-  }, []);
 
   useEffect(() => {
     loginViaToken({ navigate, setLoading });
   }, []);
 
-  useEffect(() => {}, [isAuthenticated]);
-
   return (
     <>
       {loading ? (
-        <Progress />
+        <>
+          asdas
+          <Progress />
+        </>
       ) : isAuthenticated ? (
         <Routes>
           <Route path={"*"} element={<ProtectedRoutes />} />

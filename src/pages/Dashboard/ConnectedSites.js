@@ -7,8 +7,8 @@ import Button from "../../components/Button/Button";
 import { endPoints } from "../../endPoints";
 import { getData } from "../../networkCalls";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
+import Modal from "../../components/Modal/Modal";
 const DummyRows = [1, 2, 3, 4, 5, 6];
-
 const SkeletonRows = () => {
   return DummyRows.map((row) => {
     return (
@@ -25,7 +25,7 @@ const SkeletonRows = () => {
 
 const NoDomains = () => {
   return (
-    <tr className={styles.siteRowWrapper}>
+    <tr className={styles.siteRowWrapperEmpty} style={{ cursor: "default" }}>
       <td colSpan={10}>
         <div className={styles.noDomainsWrapper}>
           <div className={styles.emptyIcon}>
@@ -42,17 +42,25 @@ const NoDomains = () => {
   );
 };
 
-const ConnectedSitesRow = ({ siteHandler = () => {} }) => {
-  const site = "bulkIndexer.net";
+const ConnectedSitesRow = ({ site }) => {
+  const navigate = useNavigate();
+
+  const siteHandler = (site) => {
+    if (!site) return;
+    navigate(screens.indexer + "?domain_name=" + site);
+  };
   return (
     <tr className={styles.siteRowWrapper}>
       <td>
         <div
-          onClick={() => {
-            siteHandler(site);
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            siteHandler(site.domain_name);
           }}
+          className={styles.domainName}
         >
-          {site}
+          {site.domain_name}
         </div>
       </td>
       <td className={styles.rowCtas}>
@@ -62,7 +70,20 @@ const ConnectedSitesRow = ({ siteHandler = () => {} }) => {
             handler={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              siteHandler(site);
+              siteHandler(site.domain_name);
+            }}
+          />
+          <Button
+            text={""}
+            handler={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              siteHandler(site.domain_name);
+            }}
+            Icon={() => <SVGIcon src={"/assets/svg/deleteBin.svg"} size={24} />}
+            style={{
+              color: "var(--secondary-color2)",
+              background: "white",
             }}
           />
         </div>
@@ -71,45 +92,26 @@ const ConnectedSitesRow = ({ siteHandler = () => {} }) => {
   );
 };
 
-export const ConnectedSites = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [fetchedDomains, setFetchedDomains] = useState([]);
-  const siteHandler = (site) => {
-    navigate(screens.indexer + "/" + site);
-  };
-
-  useEffect(() => {
-    fetchDomains();
-  }, []);
-  const fetchDomains = async () => {
-    const res = await getData({ url: endPoints.getDomains });
-    if (res.status == 200) {
-      if (!!res.data?.domains?.length) {
-        setFetchedDomains(res.data.domains);
-      } else {
-        setFetchedDomains([]);
-      }
-      setLoading(false);
-    } else {
-      setFetchedDomains([]);
-    }
-  };
-
+const ConnectedSites = ({
+  fetchedDomains = [],
+  setFetchedDomains = () => {},
+  loading,
+  setLoading,
+}) => {
   return loading ? (
     <SkeletonRows />
   ) : (
     <table className={styles.connectedSitesTable}>
       <thead>
         <tr>
-          <th></th>
-          <th className={styles.headCtas}></th>
+          <th>Domain</th>
+          <th className={styles.headCtas}>Actions</th>
         </tr>
       </thead>
       <tbody>
-        {!!fetchDomains.length ? (
+        {!!fetchedDomains.length ? (
           fetchedDomains.map((site) => {
-            return <ConnectedSitesRow siteHandler={siteHandler} site={site} />;
+            return <ConnectedSitesRow site={site} />;
           })
         ) : (
           <NoDomains />
@@ -118,3 +120,5 @@ export const ConnectedSites = () => {
     </table>
   );
 };
+
+export default ConnectedSites;

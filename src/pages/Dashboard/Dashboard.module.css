@@ -74,6 +74,13 @@
   border: 1px solid var(--tertiary-color1);
 }
 
+.syncStatusText {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
 .bottomCta {
   display: flex;
   justify-content: space-between;
@@ -113,14 +120,37 @@
   width: 80%;
   margin: auto;
   margin-top: 20px;
+  border-collapse: collapse;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.connectedSitesTable thead {
+  background: #acb3bf1a;
+  border-bottom: 1px solid var(--tertiary-color3);
+}
+
+.connectedSitesTable thead th {
+  padding: 4px 10px;
+  height: 30px;
+}
+
+.connectedSitesTable tr th:first-child,
+.connectedSitesTable tr td:first-child {
+  text-align: left;
 }
 
 .siteRowWrapper {
-  border: 1px solid var(--tertiary-color3);
-  padding: 10px;
-  min-height: 60px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 4px;
+  border-bottom: 1px solid var(--tertiary-color3);
+}
+
+.domainName {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
 }
 
 .headCtas {
@@ -131,6 +161,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 
 /* ConnectedSites Ends */

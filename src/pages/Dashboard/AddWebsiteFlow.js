@@ -6,52 +6,97 @@ import { postData } from "../../networkCalls";
 import { endPoints } from "../../endPoints";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
 import { isValidDomain } from "../../Utils/constants";
+import useCombinedStore from "../../zustore/combinedStore";
 
-export const AddWebsiteFlow = ({ modal, setModal = () => {} }) => {
+export const AddWebsiteFlow = ({
+  modal,
+  setModal = () => {},
+  setFetchedDomains = () => {},
+}) => {
+  const { userInfo } = useCombinedStore((state) => state);
   const [step, setStep] = useState(1);
-  const [domainName, setDomainName] = useState("");
-  const [domainSitemaps, setDomainSitemaps] = useState([]);
+  const [domainName, setDomainName] = useState("https://bulkindexer.net");
+  const [domainSitemaps, setDomainSitemaps] = useState([
+    "https://bulkindexer.net/post-sitemap.xml",
+  ]);
+  const [syncStatu, setSyncStatus] = useState({ msg: "" });
+  const [loading, setLoading] = useState(false);
   const [errDomainName, setErrDomainName] = useState("");
   const addDomain = async (domainName) => {
-    // let err = isValidDomain(domainName);
-    // if (err?.length) {
-    //   setErrDomainName(err);
-    //   return;
-    // } else {
-    //   setErrDomainName("");
-    //   const res = await postData({
-    //     url: endPoints.addDomains,
-    //     payload: { domain_name: domainName },
-    //   });
-    //   if (res.status == 200) {
-    setStep(2);
-    //   } else {
-    //   }
-    // }
+    setLoading(true);
+    let err = isValidDomain(domainName);
+    if (err?.length) {
+      setErrDomainName(err);
+      setLoading(false);
+
+      return;
+    } else {
+      setErrDomainName("");
+      const res = await postData({
+        url: endPoints.addDomains,
+        payload: { domain_name: domainName },
+      });
+      if (res.status == 201) {
+        setStep(2);
+        setLoading(false);
+      }
+      setLoading(false);
+    }
   };
 
   const addSiteMap = async () => {
-    // const res = await postData({
-    //   url: endPoints.addSiteMap,
-    //   payload: {
-    //     domain_name: "https://bulkindexer.net/",
-    //     sitemap_urls: [
-    //       "https://bulkindexer.net/post-sitemap.xml",
-    //       "https://bulkindexer.net/page-sitemap.xml",
-    //       "https://bulkindexer.net/product-sitemap.xml",
-    //       "https://bulkindexer.net/category-sitemap.xml",
-    //       "https://bulkindexer.net/author-sitemap.xml",
-    //     ],
-    //   },
-    // });
-    // if (res.status == 200) {
-    setStep(3);
-    // } else {
-    // }
+    setLoading(true);
+    setSyncStatus({ msg: "Updating Site Map" });
+    const res = await postData({
+      url: endPoints.addSiteMap,
+      payload: {
+        domain_name: domainName,
+        sitemap_urls: [...domainSitemaps],
+      },
+    });
+    if (res.status == 201) {
+      if (domainSitemaps.length > 0) {
+        setSyncStatus({ msg: "Syncing Site Map" });
+
+        for (let siteMap = 0; siteMap < domainSitemaps.length; siteMap++) {
+          let payload = {
+            domain_name: domainName,
+            sitemap_url: domainSitemaps[siteMap],
+          };
+          const syncing = await postData({
+            url: endPoints.syncSiteMap,
+            payload: {
+              ...payload,
+            },
+          });
+          if (syncing.status == 200 || syncing.status == 201) {
+            setSyncStatus({ msg: "Adding Pages" });
+            debugger;
+            const addingPages = await postData({
+              url: endPoints.addPages,
+              payload: {
+                ...payload,
+                user_id: userInfo.id,
+                pages: syncing?.data?.urls?.newSiteMaps || [],
+              },
+            });
+          }
+        }
+      }
+      setSyncStatus({ msg: "Completed Successfully" });
+      setTimeout(() => {
+        setStep(3);
+        setLoading(false);
+        setSyncStatus({ msg: "" });
+      }, 2000);
+    } else {
+      setLoading(false);
+    }
   };
   const syncSiteMap = async () => {};
   const addCredential = async () => {
-    const credential = {
+    setLoading(true);
+    const credentials = {
       type: "service_account",
       project_id: "bulk-indexer-401311",
       private_key_id: "d01ad1877452bd2c3e9269bd97c9170bd85697f6",
@@ -68,10 +113,15 @@ export const AddWebsiteFlow = ({ modal, setModal = () => {} }) => {
     };
     const res = await postData({
       url: endPoints.addCredentials,
-      payload: credential,
+      payload: { domain_name: domainName, credentials },
     });
-    if (res.status == 200) {
+    if (res.status == 201 || res.status == 200) {
+      setFetchedDomains((ps) => [...ps, { domain_name: domainName }]);
+      setLoading(false);
+      setModal(false);
     } else {
+      setLoading(false);
+      setModal(false);
     }
   };
 
@@ -98,6 +148,9 @@ export const AddWebsiteFlow = ({ modal, setModal = () => {} }) => {
             onChange: (e) => {
               setDomainName(e.target.value);
             },
+            onBlur: (e) => {
+              setErrDomainName(isValidDomain(e.target.value) || "");
+            },
           }}
           disableUnderline
         />
@@ -115,7 +168,13 @@ export const AddWebsiteFlow = ({ modal, setModal = () => {} }) => {
           disableUnderline
         />
       ) : (
+        // read JSON
         <div></div>
+      )}
+      {step == 2 && (
+        <div className={styles.syncStatusText}>
+          Syncing Status : {syncStatu.msg}
+        </div>
       )}
       <div className={styles.bottomCta}>
         <Button
@@ -141,6 +200,8 @@ export const AddWebsiteFlow = ({ modal, setModal = () => {} }) => {
               color: "white",
               padding: "5px 20px",
             }}
+            loading={loading}
+            disabled={!!errDomainName}
           />
         ) : (
           <Button
@@ -153,6 +214,7 @@ export const AddWebsiteFlow = ({ modal, setModal = () => {} }) => {
               color: "white",
               padding: "5px 20px",
             }}
+            loading={loading}
           />
         )}
       </div>
