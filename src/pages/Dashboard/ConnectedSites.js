@@ -42,7 +42,7 @@ const NoDomains = () => {
   );
 };
 
-const ConnectedSitesRow = ({ site }) => {
+const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
   const navigate = useNavigate();
 
   const siteHandler = (site) => {
@@ -78,7 +78,7 @@ const ConnectedSitesRow = ({ site }) => {
             handler={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              siteHandler(site.domain_name);
+              setDeleteDomain({ isShow: true, obj: site });
             }}
             Icon={() => <SVGIcon src={"/assets/svg/deleteBin.svg"} size={24} />}
             style={{
@@ -97,6 +97,7 @@ const ConnectedSites = ({
   setFetchedDomains = () => {},
   loading,
   setLoading,
+  setDeleteDomain = () => {},
 }) => {
   return loading ? (
     <SkeletonRows />
@@ -111,7 +112,12 @@ const ConnectedSites = ({
       <tbody>
         {!!fetchedDomains.length ? (
           fetchedDomains.map((site) => {
-            return <ConnectedSitesRow site={site} />;
+            return (
+              <ConnectedSitesRow
+                site={site}
+                setDeleteDomain={setDeleteDomain}
+              />
+            );
           })
         ) : (
           <NoDomains />

@@ -15,6 +15,7 @@ export const AddWebsiteFlow = ({
 }) => {
   const { userInfo } = useCombinedStore((state) => state);
   const [step, setStep] = useState(1);
+  const [file, setFile] = useState(null);
   const [domainName, setDomainName] = useState("https://bulkindexer.net");
   const [domainSitemaps, setDomainSitemaps] = useState([
     "https://bulkindexer.net/post-sitemap.xml",
@@ -22,6 +23,8 @@ export const AddWebsiteFlow = ({
   const [syncStatu, setSyncStatus] = useState({ msg: "" });
   const [loading, setLoading] = useState(false);
   const [errDomainName, setErrDomainName] = useState("");
+  const [errJson, setErrJson] = useState("");
+  const [credentials, setCredentials] = useState("");
   const addDomain = async (domainName) => {
     setLoading(true);
     let err = isValidDomain(domainName);
@@ -71,7 +74,6 @@ export const AddWebsiteFlow = ({
           });
           if (syncing.status == 200 || syncing.status == 201) {
             setSyncStatus({ msg: "Adding Pages" });
-            debugger;
             const addingPages = await postData({
               url: endPoints.addPages,
               payload: {
@@ -93,7 +95,30 @@ export const AddWebsiteFlow = ({
       setLoading(false);
     }
   };
-  const syncSiteMap = async () => {};
+
+  const handleReadFile = (_file) => {
+    if (_file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const jsonData = JSON.parse(e.target.result);
+          console.log("s jsonData", jsonData);
+          setCredentials(jsonData);
+        } catch (error) {
+          setErrJson("Error reading JSON file. Please make sure it is valid.");
+          setCredentials({});
+          setFile(null);
+        }
+      };
+
+      reader.readAsText(_file);
+    } else {
+      alert("Please upload a JSON file first.");
+      setCredentials({});
+      setFile(null);
+    }
+  };
+
   const addCredential = async () => {
     setLoading(true);
     const credentials = {
@@ -125,18 +150,26 @@ export const AddWebsiteFlow = ({
     }
   };
 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile && selectedFile.type === "application/json") {
+      setFile(selectedFile);
+      handleReadFile(selectedFile);
+    } else {
+      alert("Please upload a valid JSON file.");
+      setFile(null);
+    }
+  };
+
   return (
     <div className={styles.addWSModalWrapper}>
-      <div className={styles.wsModal_iconWrap}>
-        <SVGIcon />
-      </div>
       <div className={styles.wsModal_title}>Add a Website</div>
       <div className={styles.instruction_line1}>
         {step == 1
           ? "Add Domain Name"
           : step == 2
           ? "Add Sitemap"
-          : "Add Credentials"}
+          : "Please add  Credentials (.json) file"}
       </div>
       {step == 1 ? (
         <CustomTextField
@@ -169,7 +202,14 @@ export const AddWebsiteFlow = ({
         />
       ) : (
         // read JSON
-        <div></div>
+        <div className={styles.jsonInputWrapper}>
+          <input
+            type="file"
+            accept=".json"
+            onChange={handleFileChange}
+            className={styles.jsonInput}
+          />
+        </div>
       )}
       {step == 2 && (
         <div className={styles.syncStatusText}>
@@ -215,6 +255,7 @@ export const AddWebsiteFlow = ({
               padding: "5px 20px",
             }}
             loading={loading}
+            disabled={!credentials?.hasOwnProperty("project_id")}
           />
         )}
       </div>

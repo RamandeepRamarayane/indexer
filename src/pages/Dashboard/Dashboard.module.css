@@ -68,10 +68,14 @@
   border: 1px solid var(--tertiary-color4);
   border-radius: 4px;
   padding: 9px 6px;
+  width: 95%;
 }
 
 .addWSModalWrapper input:focus {
   border: 1px solid var(--tertiary-color1);
+}
+.jsonInputWrapper {
+  width: 100%;
 }
 
 .syncStatusText {
@@ -165,3 +169,33 @@
 }
 
 /* ConnectedSites Ends */
+
+/* Delete Modal Starts */
+.deleteModalWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 270px;
+}
+
+.deleteModalWrap .title {
+  font-size: 22px;
+  color: var(--tertiary-color1);
+}
+
+.deleteModalWrap .info {
+  color: var(--tertiary-color2);
+}
+
+.deleteModalCtas {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+/* Delete Modal Ends */
