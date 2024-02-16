@@ -32,7 +32,6 @@ function App() {
     <>
       {loading ? (
         <>
-          asdas
           <Progress />
         </>
       ) : isAuthenticated ? (
