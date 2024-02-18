@@ -114,10 +114,10 @@ export const IndexerSettings = ({
         </div>
         {!!arr.length ? (
           <div className={styles.siteMaps}>
-            {arr.map((sitemap) => {
+            {arr.map((itm) => {
               return (
                 <div className={styles.sitemapRow}>
-                  {sitemap?.sitemap_url}
+                  {isJson ? itm?.file_name : itm?.sitemap_url}
                   <div></div>
                 </div>
               );
@@ -136,7 +136,7 @@ export const IndexerSettings = ({
                 <input
                   type="file"
                   accept=".json"
-                  onChange={() => {}}
+                  onChange={handleFileChange}
                   className={styles.jsonInput}
                 />{" "}
               </div>

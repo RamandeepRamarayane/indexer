@@ -100,9 +100,10 @@ const IndexerDashboard = ({ toFetchDomain }) => {
       updated_at: "2024-02-14T15:32:22.000Z",
     },
   ]);
+  const [step, setStep] = useState(1);
   const [sitemaps, setSitemaps] = useState([]);
   const [credentials, setCredentials] = useState([]);
-  const [disable, setDisable] = useState(false);
+  const [pageDisable, setPageDisable] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [domainSitemap, setDomainSitemap] = useState("");
@@ -113,18 +114,24 @@ const IndexerDashboard = ({ toFetchDomain }) => {
   const { siteUrl } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    if (toFetchDomain) {
-      fetchPages(toFetchDomain);
-      fetchSitemaps(toFetchDomain);
-      fetchCredentials(toFetchDomain);
+    const queryParams = new URLSearchParams(window.location.search);
+    const domain_name = queryParams.get("domain_name");
+    if (toFetchDomain || siteUrl) {
+      fetchPages(toFetchDomain || siteUrl);
+      fetchSitemaps(toFetchDomain || siteUrl);
+      fetchCredentials(toFetchDomain || siteUrl);
     }
   }, []);
 
   useEffect(() => {
-    if (disable) {
+    if (step == 4) {
+      setActiveTab(1);
+      setPageDisable(false);
+    } else {
       setActiveTab(2);
+      setPageDisable(true);
     }
-  }, [disable]);
+  }, [step]);
 
   const fetchPages = async (site) => {
     setLoading(true);
@@ -140,6 +147,7 @@ const IndexerDashboard = ({ toFetchDomain }) => {
       if (!!res.data.pages.length) {
         setPages([...res.data.pages]);
         setTotalPages(res.data.totalPages || 0);
+        setStep(res.data?.steps || 1);
       } else {
         setPages([]);
         setTotalPages(0);
@@ -192,10 +200,10 @@ const IndexerDashboard = ({ toFetchDomain }) => {
         <div className={styles.pageToggler}>
           <div
             className={`${styles.opt} ${activeTab == 1 && styles.active} ${
-              disable && styles.disable
+              pageDisable && styles.disable
             }`}
             onClick={() => {
-              if (!disable) setActiveTab(1);
+              if (!pageDisable) setActiveTab(1);
             }}
           >
             Pages
