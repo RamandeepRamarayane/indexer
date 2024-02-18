@@ -6,9 +6,58 @@
 
 .indexerHeader {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   padding: 20px 10px;
+}
+
+.indexerHeader .siteUrl {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.indexerHeader .pageToggler {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 1px solid gray;
+}
+
+.pageToggler .opt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 10px;
+  height: 20px;
+  cursor: pointer;
+  color: #6b6b6b;
+}
+
+.pageToggler .opt.active {
+  color: var(--primary-color1);
+  font-weight: 500;
+  overflow: hidden;
+}
+
+.pageToggler .opt.active:first-child {
+  box-shadow: inset 2px 1px 5px var(--primary-color1);
+
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.pageToggler .opt.active:last-child {
+  box-shadow: inset -2px 1px 5px var(--primary-color1);
+
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.pageToggler .opt.disable {
+  color: #ababab;
+  cursor: not-allowed;
 }
 
 .noPagesWrapper {
@@ -38,7 +87,7 @@
 
 .rowWrapper {
   overflow: auto;
-  height: calc(100vh - 240px);
+  max-height: calc(100vh - 240px);
 }
 
 .pageHeadRow,
@@ -114,3 +163,55 @@
   right: 0px;
   padding: 10px 20px;
 }
+
+/* Setting Wrapper Starts */
+.settingWrapper {
+  width: 80%;
+  margin: auto;
+  border-radius: 9px;
+}
+
+.settingHeader {
+  font-size: 20px;
+}
+
+.settingSection {
+  border-radius: 9px;
+  border: 1px solid #dbdbdb;
+  margin-top: 20px;
+}
+
+.settingSection .sectionHeader {
+  font-size: 18px;
+  padding: 4px 5px;
+  padding-left: 20px;
+}
+
+.siteMaps {
+  border: 1px solid #dbdbdb;
+  width: 80%;
+  margin-left: 30px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.inputWrapper input {
+  border: 1px solid var(--tertiary-color4);
+  border-radius: 4px;
+  padding: 9px 6px;
+  width: 400px;
+}
+
+.inputWrapper input:focus {
+  border: 1px solid var(--tertiary-color1);
+}
+/* Setting Wrapper Ends */

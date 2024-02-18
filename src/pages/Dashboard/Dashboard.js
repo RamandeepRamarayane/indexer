@@ -80,7 +80,7 @@ const Dashboard = () => {
           <AddWebsiteFlow
             modal={addWSModal}
             setModal={setAddWSModal}
-            setFetchedDomains={setFetchedDomains}
+            fetchDomains={fetchDomains}
           />
         </Modal>
       )}
