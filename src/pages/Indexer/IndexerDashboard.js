@@ -257,6 +257,7 @@ const IndexerDashboard = ({ toFetchDomain }) => {
             input={domainSitemap}
             setInput={setDomainSitemap}
             errDomainName={errDomainName}
+            domain={toFetchDomain}
           />
           <IndexerSettings
             sectionName={"Credential"}
@@ -265,6 +266,7 @@ const IndexerDashboard = ({ toFetchDomain }) => {
             setInput={setDomainSitemap}
             errDomainName={errDomainName}
             isJson={true}
+            domain={toFetchDomain}
           />
         </div>
       )}

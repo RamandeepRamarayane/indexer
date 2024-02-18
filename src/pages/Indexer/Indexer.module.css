@@ -14,8 +14,9 @@
 }
 
 .indexerHeader .siteUrl {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
+  color: var(--primary-color1);
 }
 
 .indexerHeader .pageToggler {
@@ -213,7 +214,7 @@
   margin: auto;
 }
 
-.inputWrapper {
+.inputs {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -223,14 +224,32 @@
   padding-left: 40px;
 }
 
-.inputWrapper input {
+.inputWrapper {
   border: 1px solid var(--tertiary-color4);
   border-radius: 4px;
-  padding: 9px 6px;
   width: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 36px;
 }
 
-.inputWrapper input:focus {
+.inputWrapper.hasData {
   border: 1px solid var(--tertiary-color1);
 }
+
+.jsonInputWrapper {
+  border: 1px solid var(--tertiary-color4);
+  border-radius: 4px;
+  width: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 36px;
+}
+
 /* Setting Wrapper Ends */
