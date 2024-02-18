@@ -8,12 +8,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 10px;
+  padding: 10px 10px;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 10px;
 }
 
 .indexerHeader .siteUrl {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
+  color: var(--primary-color1);
 }
 
 .indexerHeader .pageToggler {
@@ -172,46 +175,81 @@
 }
 
 .settingHeader {
-  font-size: 20px;
+  font-size: 24px;
+  color: var(--tertiary-color1);
 }
 
 .settingSection {
   border-radius: 9px;
-  border: 1px solid #dbdbdb;
   margin-top: 20px;
 }
 
 .settingSection .sectionHeader {
   font-size: 18px;
   padding: 4px 5px;
-  padding-left: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  color: var(--secondary-color1);
 }
 
 .siteMaps {
   border: 1px solid #dbdbdb;
   width: 80%;
-  margin-left: 30px;
+  margin-left: 36px;
   padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
 }
 
-.inputWrapper {
+.siteMapsEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+  padding: 20px;
+  width: 200px;
+  margin: auto;
+}
+
+.inputs {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
   gap: 5px;
+  margin-top: 20px;
+  padding-left: 40px;
 }
 
-.inputWrapper input {
+.inputWrapper {
   border: 1px solid var(--tertiary-color4);
   border-radius: 4px;
-  padding: 9px 6px;
   width: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 36px;
 }
 
-.inputWrapper input:focus {
+.inputWrapper.hasData {
   border: 1px solid var(--tertiary-color1);
 }
+
+.jsonInputWrapper {
+  border: 1px solid var(--tertiary-color4);
+  border-radius: 4px;
+  width: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 36px;
+}
+
 /* Setting Wrapper Ends */
