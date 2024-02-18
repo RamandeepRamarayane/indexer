@@ -9,6 +9,7 @@ import SVGIcon from "../../components/SVGIcon/SVGIcon";
 import { Checkbox, Skeleton, makeStyles } from "@mui/material";
 import { removeDomain } from "../../Utils/constants";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
+import { IndexerSettings } from "./IndexerSettings";
 
 const DummyRows = [1, 2, 3, 4, 5];
 
@@ -117,7 +118,7 @@ const IndexerDashboard = ({ toFetchDomain }) => {
       fetchSitemaps(toFetchDomain);
       fetchCredentials(toFetchDomain);
     }
-  }, [toFetchDomain]);
+  }, []);
 
   useEffect(() => {
     if (disable) {
@@ -178,9 +179,9 @@ const IndexerDashboard = ({ toFetchDomain }) => {
       url: endPoints.getCredentials + `?domain_name=${domain}`,
     });
     if (res.status == 200 || res.status == 201) {
-      setSitemaps(res?.data?.credentials || []);
+      setCredentials(res?.data?.credentials || []);
     } else {
-      setSitemaps([]);
+      setCredentials([]);
     }
   };
 
@@ -250,56 +251,21 @@ const IndexerDashboard = ({ toFetchDomain }) => {
       {activeTab == 2 && (
         <div className={styles.settingWrapper}>
           <div className={styles.settingHeader}>Settings</div>
-          <div className={`${styles.settingSection} ${styles.sectionSitemap}`}>
-            <div className={styles.sectionHeader}>SiteMap</div>
-            {!!sitemaps.length && (
-              <div className={styles.siteMaps}>
-                {sitemaps.map((sitemap) => {
-                  return <div>{sitemap?.sitemap_url}</div>;
-                })}
-              </div>
-            )}
-            <div className={styles.inputWrapper}>
-              <div style={{ width: "max-content" }}>Add SiteMap : </div>
-              <div>
-                <CustomTextField
-                  label=""
-                  placeholder={"Add Sitemap"}
-                  errorMsg={errDomainName}
-                  props={{
-                    value: domainSitemap,
-                    onChange: (e) => {
-                      setDomainSitemap(e.target.value);
-                    },
-                  }}
-                  disableUnderline
-                />
-              </div>
-            </div>
-          </div>
-          <div className={`${styles.settingSection} ${styles.sectionSitemap}`}>
-            <div className={styles.sectionHeader}>Credential</div>
-            {!!credentials.length && (
-              <div className={styles.siteMaps}>
-                {credentials.map((creds) => {
-                  return <div>{creds}</div>;
-                })}
-              </div>
-            )}
-            <div className={styles.inputWrapper}>
-              <div style={{ width: "max-content" }}>Add Credential : </div>
-              <div>
-                <div className={styles.jsonInputWrapper}>
-                  <input
-                    type="file"
-                    accept=".json"
-                    onChange={() => {}}
-                    className={styles.jsonInput}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <IndexerSettings
+            sectionName={"Sitemaps"}
+            arr={sitemaps}
+            input={domainSitemap}
+            setInput={setDomainSitemap}
+            errDomainName={errDomainName}
+          />
+          <IndexerSettings
+            sectionName={"Credential"}
+            arr={credentials}
+            input={domainSitemap}
+            setInput={setDomainSitemap}
+            errDomainName={errDomainName}
+            isJson={true}
+          />
         </div>
       )}
       <div className={styles.bottomCtas}>
