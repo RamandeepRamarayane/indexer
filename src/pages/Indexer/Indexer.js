@@ -12,7 +12,9 @@ const Indexer = () => {
     const domain_name = queryParams.get("domain_name");
     if (domain_name) {
       setToFetchDomain(domain_name);
-      navigate(screens.indexer + "/" + trimDomainName(domain_name));
+      navigate(screens.indexer + "/" + trimDomainName(domain_name), {
+        replace: true,
+      });
     }
   }, []);
 
