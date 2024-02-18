@@ -16,10 +16,8 @@ export const AddWebsiteFlow = ({
   const { userInfo } = useCombinedStore((state) => state);
   const [step, setStep] = useState(1);
   const [file, setFile] = useState(null);
-  const [domainName, setDomainName] = useState("https://bulkindexer.net");
-  const [domainSitemaps, setDomainSitemaps] = useState([
-    "https://bulkindexer.net/post-sitemap.xml",
-  ]);
+  const [domainName, setDomainName] = useState("");
+  const [domainSitemaps, setDomainSitemaps] = useState([]);
   const [syncStatu, setSyncStatus] = useState({ msg: "" });
   const [loading, setLoading] = useState(false);
   const [errDomainName, setErrDomainName] = useState("");
