@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import styles from "./Dashboard.module.css";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
@@ -11,7 +11,7 @@ import useCombinedStore from "../../zustore/combinedStore";
 export const AddWebsiteFlow = ({
   modal,
   setModal = () => {},
-  setFetchedDomains = () => {},
+  fetchDomains = () => {},
 }) => {
   const { userInfo } = useCombinedStore((state) => state);
   const [step, setStep] = useState(1);
@@ -25,6 +25,11 @@ export const AddWebsiteFlow = ({
   const [errDomainName, setErrDomainName] = useState("");
   const [errJson, setErrJson] = useState("");
   const [credentials, setCredentials] = useState("");
+  useEffect(() => {
+    return () => {
+      fetchDomains();
+    };
+  }, []);
   const addDomain = async (domainName) => {
     setLoading(true);
     let err = isValidDomain(domainName);
@@ -141,7 +146,6 @@ export const AddWebsiteFlow = ({
       payload: { domain_name: domainName, credentials },
     });
     if (res.status == 201 || res.status == 200) {
-      setFetchedDomains((ps) => [...ps, { domain_name: domainName }]);
       setLoading(false);
       setModal(false);
     } else {

@@ -14,7 +14,7 @@ function Aside() {
         <div
           className={styles.logo}
           onClick={() => {
-            navigate(screens.opPageIssues);
+            navigate(screens.dashboard);
           }}
         >
           <img src={"/assets/images/Logo.png"} style={{ width: "26px" }} />
