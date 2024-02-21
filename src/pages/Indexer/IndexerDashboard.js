@@ -10,6 +10,7 @@ import { Checkbox, Skeleton, makeStyles } from "@mui/material";
 import { removeDomain, trimDomainName } from "../../Utils/constants";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
 import { IndexerSettings } from "./IndexerSettings";
+import Progress from "../../components/Progress/Progress";
 
 const DummyRows = [1, 2, 3, 4, 5];
 
@@ -201,7 +202,9 @@ const IndexerDashboard = ({}) => {
     }
   };
 
-  return (
+  return loading ? (
+    <Progress />
+  ) : (
     <div className={styles.indexerContainer}>
       <div className={styles.indexerHeader}>
         {!!domain.length && (

@@ -31,61 +31,66 @@ const SignUp = () => {
 
   return (
     <>
-      <CustomTextField
-        label=""
-        placeholder={"Email address"}
-        props={{
-          value: email,
-          onChange: (e) => {
-            setEmail(e.target.value);
-          },
-        }}
-      />
-      <CustomTextField
-        label=""
-        placeholder={"Company Name"}
-        props={{
-          value: company,
-          onChange: (e) => {
-            setCompany(e.target.value);
-          },
-        }}
-      />
-      <CustomTextField
-        label=""
-        placeholder={"Name"}
-        props={{
-          value: name,
-          onChange: (e) => {
-            setName(e.target.value);
-          },
-        }}
-      />
-      <CustomTextField
-        variant={"Password"}
-        label=""
-        placeholder={"Password"}
-        props={{
-          value: password,
-          onChange: (e) => {
-            setPassword(e.target.value);
-          },
-        }}
-      />
-      <div className={styles.bottomWrapper}>
-        <Button
-          handler={handleRegister}
-          height={40}
-          text={"Signup"}
-          loading={loading}
-          width={"100%"}
-          style={{ padding: "10px 9px", marginTop: "15px" }}
+      <form id="sign_up_form" onSubmit={(e) => e.preventDefault()}>
+        <CustomTextField
+          label=""
+          placeholder={"Email address"}
+          props={{
+            value: email,
+            onChange: (e) => {
+              setEmail(e.target.value);
+            },
+          }}
         />
-        <div className={styles.policy_terms}>
-          By creating an account, I accept the content of{" "}
-          <a href="#">Regulations</a> and <a href="#">Privacy Policy</a>.
+        <CustomTextField
+          label=""
+          placeholder={"Company Name"}
+          props={{
+            value: company,
+            onChange: (e) => {
+              setCompany(e.target.value);
+            },
+          }}
+        />
+        <CustomTextField
+          label=""
+          placeholder={"Name"}
+          props={{
+            value: name,
+            onChange: (e) => {
+              setName(e.target.value);
+            },
+          }}
+        />
+        <CustomTextField
+          variant={"Password"}
+          label=""
+          placeholder={"Password"}
+          props={{
+            value: password,
+            onChange: (e) => {
+              setPassword(e.target.value);
+            },
+          }}
+        />
+        <div className={styles.bottomWrapper}>
+          <Button
+            props={{
+              id: "sign-up-button",
+            }}
+            handler={handleRegister}
+            height={40}
+            text={"Signup"}
+            loading={loading}
+            width={"100%"}
+            style={{ padding: "10px 9px", marginTop: "15px" }}
+          />
+          <div className={styles.policy_terms}>
+            By creating an account, I accept the content of{" "}
+            <a href="#">Regulations</a> and <a href="#">Privacy Policy</a>.
+          </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };
