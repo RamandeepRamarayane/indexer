@@ -7,7 +7,7 @@ import { getData, postData } from "../../networkCalls";
 import { endPoints } from "../../endPoints";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
 import { Checkbox, Skeleton, makeStyles } from "@mui/material";
-import { removeDomain } from "../../Utils/constants";
+import { removeDomain, trimDomainName } from "../../Utils/constants";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
 import { IndexerSettings } from "./IndexerSettings";
 
@@ -83,8 +83,11 @@ const PageRow = ({ page = {}, idx = 0, indexPages = () => {} }) => {
   );
 };
 
-const IndexerDashboard = ({ toFetchDomain }) => {
+const IndexerDashboard = ({}) => {
   const [loading, setLoading] = useState(true);
+  const [domain, setDomain] = useState("");
+  const [logoSuccess, setLogoSuccess] = useState(true);
+  const [fetchingPages, setFetchingPages] = useState(true);
   const [pages, setPages] = useState([
     {
       id: 7,
@@ -107,19 +110,21 @@ const IndexerDashboard = ({ toFetchDomain }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [domainSitemap, setDomainSitemap] = useState("");
+  const [file, setFile] = useState(null);
   const [syncStatu, setSyncStatus] = useState({ msg: "" });
   const [errDomainName, setErrDomainName] = useState("");
   const [errJson, setErrJson] = useState("");
   const [addCredential, setAddCredential] = useState("");
-  const { siteUrl } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const domain_name = queryParams.get("domain_name");
-    if (toFetchDomain || siteUrl) {
-      fetchPages(toFetchDomain || siteUrl);
-      fetchSitemaps(toFetchDomain || siteUrl);
-      fetchCredentials(toFetchDomain || siteUrl);
+    if (domain_name) {
+      setLoading(true);
+      setDomain(domain_name);
+      fetchPages(domain_name);
+      fetchSitemaps(domain_name);
+      fetchCredentials(domain_name);
     }
   }, []);
 
@@ -134,20 +139,22 @@ const IndexerDashboard = ({ toFetchDomain }) => {
   }, [step]);
 
   const fetchPages = async (site) => {
-    setLoading(true);
-
+    setFetchingPages(true);
     if (!site) {
       navigate(screens.dashboard);
       setLoading(false);
-
+      setFetchingPages(false);
       return;
     }
     const res = await getData({ url: endPoints.getPages + site });
     if (res.status == 200) {
+      setStep(res.data?.hasOwnProperty("steps") ? res.data?.steps : 1);
+      if (res.data?.steps == 4) {
+        setActiveTab(1);
+      }
       if (!!res.data.pages.length) {
         setPages([...res.data.pages]);
         setTotalPages(res.data.totalPages || 0);
-        setStep(res.data?.steps || 1);
       } else {
         setPages([]);
         setTotalPages(0);
@@ -158,11 +165,12 @@ const IndexerDashboard = ({ toFetchDomain }) => {
       navigate(screens.dashboard);
     }
     setLoading(false);
+    setFetchingPages(false);
   };
 
   const indexPages = async (ids = []) => {
     let payload = {
-      domain_name: toFetchDomain,
+      domain_name: domain,
       page_id: [...ids],
     };
     const res = await postData({ url: endPoints.indexPages, payload });
@@ -196,7 +204,27 @@ const IndexerDashboard = ({ toFetchDomain }) => {
   return (
     <div className={styles.indexerContainer}>
       <div className={styles.indexerHeader}>
-        <div className={styles.siteUrl}>{siteUrl}</div>
+        {!!domain.length && (
+          <div className={styles.siteUrl}>
+            <div className={styles.domainLogo}>
+              {logoSuccess ? (
+                <img
+                  src={`https://s2.googleusercontent.com/s2/favicons?domain=${trimDomainName(
+                    domain
+                  )}&sz=32`}
+                  width={"22px"}
+                  onError={() => {
+                    setLogoSuccess(false);
+                  }}
+                />
+              ) : (
+                <SVGIcon src={"/assets/svg/globe.svg"} size={18} />
+              )}
+            </div>
+
+            {trimDomainName(domain)}
+          </div>
+        )}
         <div className={styles.pageToggler}>
           <div
             className={`${styles.opt} ${activeTab == 1 && styles.active} ${
@@ -219,42 +247,45 @@ const IndexerDashboard = ({ toFetchDomain }) => {
         </div>
       </div>
       {activeTab == 1 && (
-        <div className={styles.pagesWrapper}>
-          <div className={styles.pageHeadRow}>
-            <div className={styles.headCheckbox}></div>
+        <>
+          <div className={styles.pagesHeader}>Pages</div>
+          <div className={styles.pagesWrapper}>
+            <div className={styles.pageHeadRow}>
+              <div className={styles.headCheckbox}></div>
 
-            <div className={styles.headPage}>Page</div>
-            <div className={styles.headStatus}>Status</div>
-            <div className={styles.headCta}>Action</div>
-          </div>
-          {loading ? (
-            <SkeletonRows />
-          ) : !!pages?.length ? (
-            <div className={styles.rowWrapper}>
-              {pages.map((page, idx) => {
-                return (
-                  <PageRow
-                    key={idx + 1}
-                    page={page}
-                    idx={idx}
-                    indexPages={indexPages}
-                  />
-                );
-              })}
+              <div className={styles.headPage}>Page</div>
+              <div className={styles.headStatus}>Status</div>
+              <div className={styles.headCta}>Action</div>
             </div>
-          ) : (
-            <div className={styles.noPagesWrapper}>
-              <div className={styles.emptyIcon}>
-                <SVGIcon
-                  src={"/assets/svg/emptyData.svg"}
-                  size={80}
-                  style={{ color: "inherit" }}
-                />
+            {loading ? (
+              <SkeletonRows />
+            ) : !!pages?.length ? (
+              <div className={styles.rowWrapper}>
+                {pages.map((page, idx) => {
+                  return (
+                    <PageRow
+                      key={idx + 1}
+                      page={page}
+                      idx={idx}
+                      indexPages={indexPages}
+                    />
+                  );
+                })}
               </div>
-              No Pages Found
-            </div>
-          )}
-        </div>
+            ) : (
+              <div className={styles.noPagesWrapper}>
+                <div className={styles.emptyIcon}>
+                  <SVGIcon
+                    src={"/assets/svg/emptyData.svg"}
+                    size={80}
+                    style={{ color: "inherit" }}
+                  />
+                </div>
+                No Pages Found
+              </div>
+            )}
+          </div>
+        </>
       )}
       {activeTab == 2 && (
         <div className={styles.settingWrapper}>
@@ -265,16 +296,20 @@ const IndexerDashboard = ({ toFetchDomain }) => {
             input={domainSitemap}
             setInput={setDomainSitemap}
             errDomainName={errDomainName}
-            domain={toFetchDomain}
+            domain={domain}
+            fetchLatest={fetchSitemaps}
+            fetchPages={fetchPages}
           />
           <IndexerSettings
             sectionName={"Credential"}
             arr={credentials}
-            input={domainSitemap}
-            setInput={setDomainSitemap}
+            input={file}
+            setInput={setFile}
             errDomainName={errDomainName}
             isJson={true}
-            domain={toFetchDomain}
+            domain={domain}
+            fetchLatest={fetchCredentials}
+            fetchPages={fetchPages}
           />
         </div>
       )}

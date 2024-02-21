@@ -4,7 +4,6 @@ import { links } from "./data";
 import AccountMenu from "./AccountMenu";
 import { NavLink, useNavigate } from "react-router-dom";
 import { screens } from "../../screens";
-import SVGIcon from "../../components/SVGIcon/SVGIcon";
 
 function Aside() {
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ function Aside() {
           <span className={styles.title}>Bulk Indexer</span>
         </div>
 
-        {/* <div className={styles.navLinks}>
+        <div className={styles.navLinks}>
           {links.map((link) => (
             <div>
               <NavLink
@@ -39,7 +38,7 @@ function Aside() {
               </NavLink>
             </div>
           ))}
-        </div> */}
+        </div>
         <AccountMenu />
       </div>
     </div>

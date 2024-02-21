@@ -6,21 +6,10 @@ import SVGIcon from "../../components/SVGIcon/SVGIcon";
 
 export const links = [
   {
-    link: screens.opPageIssues,
-    title: "On-Page Issues",
-    icon: <SVGIcon src="/svg/pageIssues.svg" size={24} />,
+    link: screens.dashboard,
+    title: "Dashboard",
+    icon: <SVGIcon src="/assets/svg/dashboard.svg" size={24} />,
     isDisabled: false,
-  },
-  {
-    link: screens.integration,
-    title: "Speed Optimizer",
-    icon: (
-      <div>
-        <BsSpeedometer2 style={{ marginBottom: -3 }} size={22} />
-      </div>
-    ),
-    isDisabled: true,
-    tag: "Coming Soon!",
   },
 ];
 
