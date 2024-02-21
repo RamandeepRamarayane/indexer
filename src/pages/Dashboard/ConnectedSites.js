@@ -66,12 +66,16 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
       <td className={styles.rowCtas}>
         <div className={styles.ctaWrapper}>
           <Button
-            text={"Details"}
+            text={site?.steps == 4 ? "Details" : "Setup"}
             handler={(e) => {
               e.preventDefault();
               e.stopPropagation();
               siteHandler(site.domain_name);
             }}
+            style={{
+              background: site?.steps == 4 ? "" : "var(--tertiary-color1)",
+            }}
+            width={"100px"}
           />
           <Button
             text={""}

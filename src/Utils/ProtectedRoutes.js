@@ -22,7 +22,7 @@ const ProtectedRoutes = ({ children }) => {
       <Route path="*" element={<Wrapper />}>
         <Route path="" exact element={<Dashboard />} />
         <Route path="dashboard" exact element={<Dashboard />} />
-        <Route path="indexer/*" element={<Indexer />} />
+        <Route path="indexer" element={<Indexer />} />
         <Route path="about" exact element={<div>About </div>} />
         <Route path="dashboard/logout" exact element={<Logout />} />
         <Route path="*" element={<Navigate to={"/dashboard"} replace />} />

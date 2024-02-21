@@ -6,64 +6,118 @@ import { postData } from "../../networkCalls";
 import { endPoints } from "../../endPoints";
 import useCombinedStore from "../../zustore/combinedStore";
 import Button from "../../components/Button/Button";
+import { TEMP_CREDS } from "../../Utils/constants";
+
+const ItemRow = ({
+  item = {},
+  isJson = false,
+  initiateDomainSync = () => {},
+}) => {
+  return (
+    <tr className={styles.itemRowWrapper}>
+      <td>
+        <div className={styles.itemName}>
+          {isJson ? item?.file_name : item?.sitemap_url}
+        </div>
+      </td>
+      <td className={styles.rowCtas}>
+        <div className={styles.ctaWrapper}>
+          {!isJson && (
+            <Button
+              text={""}
+              handler={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                initiateDomainSync({ siteMap: item?.sitemap_url });
+              }}
+              height={28}
+              width={28}
+              Icon={() => <SVGIcon src={"/assets/svg/sync.svg"} size={16} />}
+              style={{
+                color: "var(--secondary-color1)",
+                background: "white",
+                border: "1px solid var(--secondary-color1)",
+              }}
+            />
+          )}
+          <Button
+            text={""}
+            handler={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              //  delete sitemap
+            }}
+            height={28}
+            width={28}
+            Icon={() => <SVGIcon src={"/assets/svg/deleteBin.svg"} size={24} />}
+            style={{
+              color: "var(--secondary-color2)",
+              background: "white",
+              border: "1px solid var(--secondary-color2)",
+            }}
+          />
+        </div>
+      </td>
+    </tr>
+  );
+};
 export const IndexerSettings = ({
   sectionName = "",
   arr = [],
-  input,
-  setInput,
   errDomainName = "",
   isJson = false,
   domain,
+  fetchLatest = () => {},
+  fetchPages = () => {},
 }) => {
-  const [syncStatu, setSyncStatus] = useState({ msg: "" });
+  const [syncStatus, setSyncStatus] = useState({ msg: "" });
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+  const [creds, setCreds] = useState({});
+  const [siteMap, setSiteMap] = useState("");
   const { userInfo } = useCombinedStore((state) => state);
   const [errJson, setErrJson] = useState("");
 
+  const initiateDomainSync = async ({ siteMap }) => {
+    setSyncStatus({ msg: "Syncing..." });
+    let payload = {
+      domain_name: domain,
+      sitemap_url: siteMap,
+    };
+    const syncing = await postData({
+      url: endPoints.syncSiteMap,
+      payload: {
+        ...payload,
+      },
+    });
+    if (syncing.status == 200 || syncing.status == 201) {
+      setSyncStatus({
+        msg: "Success: Pages Added Successfully",
+      });
+      return true;
+    } else {
+      setSyncStatus({ msg: "Failed : Sitemap not synced" });
+      return false;
+    }
+  };
+
   const addSiteMap = async () => {
     setLoading(true);
-    setSyncStatus({ msg: "Updating Site Map" });
     const res = await postData({
       url: endPoints.addSiteMap,
       payload: {
         domain_name: domain,
-        sitemap_urls: [input],
+        sitemap_urls: [siteMap],
       },
     });
     if (res.status == 201) {
-      if (input.length > 0) {
-        setSyncStatus({ msg: "Syncing Site Map" });
-
-        let payload = {
-          domain_name: domain,
-          sitemap_url: input,
-        };
-        const syncing = await postData({
-          url: endPoints.syncSiteMap,
-          payload: {
-            ...payload,
-          },
-        });
-        if (syncing.status == 200 || syncing.status == 201) {
-          setSyncStatus({ msg: "Adding Pages" });
-          const addingPages = await postData({
-            url: endPoints.addPages,
-            payload: {
-              ...payload,
-              user_id: userInfo.id,
-              pages: syncing?.data?.urls?.newSiteMaps || [],
-            },
-          });
-        }
-      }
-      setSyncStatus({ msg: "Completed Successfully" });
-      setTimeout(() => {
-        setLoading(false);
-        setSyncStatus({ msg: "" });
-      }, 2000);
+      //fetch SiteMaps
+      fetchLatest(domain);
+      setLoading(false);
+      setSiteMap("");
     } else {
       setLoading(false);
+      setSiteMap("");
     }
   };
 
@@ -74,10 +128,10 @@ export const IndexerSettings = ({
         try {
           const jsonData = JSON.parse(e.target.result);
           console.log("s jsonData", jsonData);
-          setInput(jsonData);
+          setCreds(jsonData);
         } catch (error) {
           setErrJson("Error reading JSON file. Please make sure it is valid.");
-          setInput({});
+          setCreds(null);
           setFile(null);
         }
       };
@@ -85,7 +139,6 @@ export const IndexerSettings = ({
       reader.readAsText(_file);
     } else {
       alert("Please upload a JSON file first.");
-      setInput({});
       setFile(null);
     }
   };
@@ -98,6 +151,23 @@ export const IndexerSettings = ({
     } else {
       alert("Please upload a valid JSON file.");
       setFile(null);
+    }
+  };
+
+  const addCredential = async () => {
+    setLoading(true);
+    const credentials = { ...TEMP_CREDS };
+    const res = await postData({
+      url: endPoints.addCredentials,
+      payload: { domain_name: domain, credentials },
+    });
+    if (res.status == 201 || res.status == 200) {
+      setLoading(false);
+      //fetch Credentials
+      fetchLatest(domain);
+      fetchPages(domain);
+    } else {
+      setLoading(false);
     }
   };
 
@@ -114,14 +184,25 @@ export const IndexerSettings = ({
         </div>
         {!!arr.length ? (
           <div className={styles.siteMaps}>
-            {arr.map((itm) => {
-              return (
-                <div className={styles.sitemapRow}>
-                  {isJson ? itm?.file_name : itm?.sitemap_url}
-                  <div></div>
-                </div>
-              );
-            })}
+            <table>
+              <thead>
+                <tr>
+                  <th>{isJson ? "Credential" : "Sitemap"}</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {arr.map((itm) => {
+                  return (
+                    <ItemRow
+                      item={itm}
+                      isJson={isJson}
+                      initiateDomainSync={initiateDomainSync}
+                    />
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         ) : (
           <div className={styles.siteMapsEmpty}>No {sectionName} found</div>
@@ -138,32 +219,47 @@ export const IndexerSettings = ({
                   accept=".json"
                   onChange={handleFileChange}
                   className={styles.jsonInput}
-                />{" "}
-              </div>
-            ) : (
-              <div
-                className={`${styles.inputWrapper} ${
-                  !!input.length && styles.hasData
-                }`}
-              >
-                <CustomTextField
-                  label=""
-                  placeholder={"Add Sitemap"}
-                  errorMsg={errDomainName}
-                  props={{
-                    value: input,
-                    onChange: (e) => {
-                      setInput(e.target.value);
-                    },
-                  }}
-                  disableUnderline
                 />
                 <Button
-                  text={"Add"}
-                  handler={handleFileChange}
-                  disabled={!input.length}
+                  text={"Validate"}
+                  handler={addCredential}
+                  disabled={!file}
                   height={28}
+                  loading={loading}
                 />
+              </div>
+            ) : (
+              <div className={styles.siteMapInputWrapper}>
+                <div
+                  className={`${styles.inputWrapper} ${
+                    !!siteMap.length && styles.hasData
+                  }`}
+                >
+                  <CustomTextField
+                    label=""
+                    placeholder={"Add Sitemap"}
+                    errorMsg={errDomainName}
+                    props={{
+                      value: siteMap,
+                      onChange: (e) => {
+                        setSiteMap(e.target.value);
+                      },
+                    }}
+                    disableUnderline
+                  />
+                  <Button
+                    text={"Add"}
+                    handler={addSiteMap}
+                    disabled={!siteMap.length}
+                    height={28}
+                    loading={loading}
+                  />
+                </div>
+                {!!syncStatus?.msg?.length && (
+                  <div className={styles.syncStatusText}>
+                    Sync Status :{syncStatus.msg}
+                  </div>
+                )}
               </div>
             )}
           </div>
