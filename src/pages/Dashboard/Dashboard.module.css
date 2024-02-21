@@ -215,6 +215,12 @@
   width: 200px;
 }
 
+.autoIndexToggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .ctaWrapper {
   display: flex;
   justify-content: center;
