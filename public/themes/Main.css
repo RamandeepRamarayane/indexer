@@ -1,17 +1,19 @@
 :root {
   /* --primary-color1: rgb(140, 185, 189); */
-  --primary-color1: rgb(67, 118, 108);
-
-  --primary-color1-op01: rgba(140, 185, 189, 0.1);
+  --primary-color1: #43766c;
+  --primary-color1-op01: #8cb9bd1a;
   --secondary-color1: #092635;
   --secondary-color1-op01: rgba(9, 38, 53, 0.1);
   --secondary-color2: #f53b57;
   --secondary-color3: #9ade7b;
+  --secondary-color4: #c84c84;
+  --secondary-color4-op01: rgba(200, 76, 132, 0.1);
   --tertiary-color1: rgb(100, 116, 139);
   --tertiary-color1-op02: rgb(100, 116, 139, 0.2);
   --tertiary-color2: #6b6b6b;
   --tertiary-color3: #d8d8d8;
   --tertiary-color4: #dddfe2;
+  --fw-thin: 300;
   --fw-reg: 400;
   --fw-med: 500;
   --fw-sb: 600;

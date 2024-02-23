@@ -34,7 +34,11 @@ const Login = () => {
   };
   return (
     <>
-      <form id="sign_in_form" onSubmit={(e) => e.preventDefault()}>
+      <form
+        id="sign_in_form"
+        onSubmit={(e) => e.preventDefault()}
+        style={{ width: "100%" }}
+      >
         <CustomTextField
           label=""
           placeholder={"Email address"}
