@@ -13,7 +13,7 @@ window.onstorage = (e) => {
 };
 
 if (PROD) {
-  window.console = null;
+  window.console.log = () => {};
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
