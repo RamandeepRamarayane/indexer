@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Indexer.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { screens } from "../../screens";
@@ -6,7 +6,7 @@ import Button from "../../components/Button/Button";
 import { getData, postData } from "../../networkCalls";
 import { endPoints } from "../../endPoints";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
-import { Checkbox, Skeleton, makeStyles } from "@mui/material";
+import { Checkbox, Skeleton, debounce, makeStyles } from "@mui/material";
 import { removeDomain, trimDomainName } from "../../Utils/constants";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
 import { IndexerSettings } from "./IndexerSettings";
@@ -116,6 +116,8 @@ const IndexerDashboard = ({}) => {
   const [errDomainName, setErrDomainName] = useState("");
   const [errJson, setErrJson] = useState("");
   const [addCredential, setAddCredential] = useState("");
+  const [domainInfo, setDomainInfo] = useState({});
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -123,9 +125,7 @@ const IndexerDashboard = ({}) => {
     if (domain_name) {
       setLoading(true);
       setDomain(domain_name);
-      fetchPages(domain_name);
-      fetchSitemaps(domain_name);
-      fetchCredentials(domain_name);
+      getDomainInfo(domain_name);
     }
   }, []);
 
@@ -146,20 +146,50 @@ const IndexerDashboard = ({}) => {
     }
   }, [credentials]);
 
-  const fetchPages = async (site) => {
-    setFetchingPages(true);
+  console.log("debounceWrapper search", search);
+
+  const debouncedSearch = useCallback(
+    debounce((e) => {
+      const val = e.target?.value?.trim();
+      setSearch(val);
+    }, 500),
+    []
+  );
+
+  const getDomainInfo = async (site) => {
+    setLoading(true);
+
     if (!site) {
       navigate(screens.dashboard);
       setLoading(false);
       setFetchingPages(false);
       return;
     }
-    const res = await getData({ url: endPoints.getPages + site });
+    const res = await getData({ url: endPoints.getDomainInfo + site });
     if (res.status == 200) {
-      setStep(res.data?.hasOwnProperty("steps") ? res.data?.steps : 1);
-      if (res.data?.steps == 4) {
+      // Set basic domainInfo
+      setDomainInfo(res.data.result);
+      setStep(
+        res.data?.result?.hasOwnProperty("steps") ? res.data?.result?.steps : 1
+      );
+      if (res.data?.result?.steps == 4) {
         setActiveTab(1);
       }
+
+      // fetch remaining data
+      fetchPages(site);
+      fetchSitemaps(site);
+      fetchCredentials(site);
+    } else {
+      navigate(screens.dashboard);
+    }
+    setLoading(false);
+  };
+
+  const fetchPages = async (site) => {
+    setFetchingPages(true);
+    const res = await getData({ url: endPoints.getPages + site });
+    if (res.status == 200) {
       if (!!res.data.pages.length) {
         setPages([...res.data.pages]);
         setTotalPages(res.data.totalPages || 0);
@@ -172,7 +202,6 @@ const IndexerDashboard = ({}) => {
       setTotalPages(0);
       navigate(screens.dashboard);
     }
-    setLoading(false);
     setFetchingPages(false);
   };
 
@@ -258,7 +287,19 @@ const IndexerDashboard = ({}) => {
       </div>
       {activeTab == 1 && (
         <>
-          <div className={styles.pagesHeader}>Pages</div>
+          <div className={styles.pagesHeader}>
+            <div>Title</div>
+            <div className={styles.filterWrapper}>
+              <CustomTextField
+                props={{
+                  onChange: (e) => debouncedSearch(e),
+                }}
+                placeholder="Search Page"
+                label=""
+                disableUnderline
+              />
+            </div>
+          </div>
           <div className={styles.pagesWrapper}>
             <div className={styles.pageHeadRow}>
               <div className={styles.headCheckbox}></div>

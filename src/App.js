@@ -28,7 +28,7 @@ function App() {
   useNetworkInterceptor();
 
   useEffect(() => {
-    if (!skipLoginViaToken) loginViaToken({ navigate, setLoading });
+    loginViaToken({ navigate, setLoading });
   }, []);
 
   return (

@@ -193,7 +193,27 @@
 .pagesHeader {
   width: 80%;
   margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 20px;
+}
+
+.filterWrapper {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.filterWrapper > div > div {
+  display: flex;
+  align-items: flex-start;
+  height: max-content !important;
+}
+.filterWrapper input {
+  border: 1px solid var(--tertiary-color1);
+  padding: 2px 4px;
+  border-radius: 4px;
 }
 
 .settingSection {
