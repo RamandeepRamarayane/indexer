@@ -17,6 +17,8 @@ import { useEffect, useState } from "react";
 import useCombinedStore from "./zustore/combinedStore";
 import Progress from "./components/Progress/Progress";
 import CustomAlerts from "./components/CustomAlertMessages/CustomAlerts";
+import TransactionInProgress from "./pages/Subscription/TransactionInProgress";
+import { screens } from "./screens";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -36,6 +38,10 @@ function App() {
         </>
       ) : isAuthenticated ? (
         <Routes>
+          <Route
+            element={<TransactionInProgress />}
+            path={screens.transaction}
+          />
           <Route path={"*"} element={<ProtectedRoutes />} />
         </Routes>
       ) : (

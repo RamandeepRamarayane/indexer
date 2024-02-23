@@ -82,10 +82,11 @@ export const AddWebsiteFlow = ({
     });
     if (res.status == 201) {
       if (domainSitemaps.length > 0) {
-        for (let siteMap = 0; siteMap < domainSitemaps.length; siteMap++) {
-          const syncStatus = await initiateDomainSync({
-            siteMap: domainSitemaps[siteMap],
-          });
+        const syncStatus = await initiateDomainSync({
+          siteMap: domainSitemaps[0],
+        });
+        if (syncStatus) {
+          setStep(3);
         }
       }
       setLoading(false);

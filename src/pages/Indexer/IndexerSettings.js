@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Indexer.module.css";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
-import { postData } from "../../networkCalls";
+import { getData, postData } from "../../networkCalls";
 import { endPoints } from "../../endPoints";
 import useCombinedStore from "../../zustore/combinedStore";
 import Button from "../../components/Button/Button";
@@ -12,7 +12,10 @@ const ItemRow = ({
   item = {},
   isJson = false,
   initiateDomainSync = () => {},
+  removeItem = () => {},
 }) => {
+  const [isRemoving, setIsRemoving] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   return (
     <tr className={styles.itemRowWrapper}>
       <td>
@@ -28,10 +31,15 @@ const ItemRow = ({
               handler={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                initiateDomainSync({ siteMap: item?.sitemap_url });
+                setIsSyncing(true);
+                initiateDomainSync(
+                  { siteMap: item?.sitemap_url },
+                  setIsSyncing
+                );
               }}
               height={28}
               width={28}
+              loading={isSyncing}
               Icon={() => <SVGIcon src={"/assets/svg/sync.svg"} size={16} />}
               style={{
                 color: "var(--secondary-color1)",
@@ -46,7 +54,13 @@ const ItemRow = ({
               e.preventDefault();
               e.stopPropagation();
               //  delete sitemap
+              setIsRemoving(true);
+              removeItem(
+                isJson ? { fileName: item?.file_name } : { siteMap: item?.id },
+                setIsRemoving
+              );
             }}
+            loading={isRemoving}
             height={28}
             width={28}
             Icon={() => <SVGIcon src={"/assets/svg/deleteBin.svg"} size={24} />}
@@ -78,8 +92,9 @@ export const IndexerSettings = ({
   const { userInfo } = useCombinedStore((state) => state);
   const [errJson, setErrJson] = useState("");
 
-  const initiateDomainSync = async ({ siteMap }) => {
+  const initiateDomainSync = async ({ siteMap }, setLoad = () => {}) => {
     setSyncStatus({ msg: "Syncing..." });
+    setLoad(true);
     let payload = {
       domain_name: domain,
       sitemap_url: siteMap,
@@ -94,9 +109,13 @@ export const IndexerSettings = ({
       setSyncStatus({
         msg: "Success: Pages Added Successfully",
       });
+      setLoad(false);
+
       return true;
     } else {
       setSyncStatus({ msg: "Failed : Sitemap not synced" });
+      setLoad(false);
+
       return false;
     }
   };
@@ -171,6 +190,30 @@ export const IndexerSettings = ({
     }
   };
 
+  const removeItem = async (
+    { fileName = null, siteMap = null },
+    setLoad = () => {}
+  ) => {
+    if (!fileName && !siteMap) {
+      return;
+    }
+
+    if (fileName) {
+      const res = await getData({
+        url: `${endPoints.deleteCredentials}?domain_name=${domain}&file_name=${fileName}`,
+      });
+      if (res.status == 200) {
+        fetchLatest(domain);
+        setLoad(false);
+      } else {
+      }
+    } else {
+      setTimeout(() => {
+        setLoad(false);
+      }, 1000);
+    }
+  };
+
   return (
     <>
       <div className={`${styles.settingSection} ${styles.sectionSitemap}`}>
@@ -198,6 +241,7 @@ export const IndexerSettings = ({
                       item={itm}
                       isJson={isJson}
                       initiateDomainSync={initiateDomainSync}
+                      removeItem={removeItem}
                     />
                   );
                 })}

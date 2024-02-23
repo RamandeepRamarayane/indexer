@@ -41,14 +41,14 @@ const PageRow = ({ page = {}, idx = 0, indexPages = () => {} }) => {
           defaultChecked
           checkedIcon={
             <SVGIcon
-              src={"/assets/svg/check-filled.svg"}
+              src={"/assets/svg/checkbox-filled.svg"}
               size={18}
               style={{ color: "var(--primary-color1)" }}
             />
           }
           icon={
             <SVGIcon
-              src={"/assets/svg/check-empty.svg"}
+              src={"/assets/svg/checkbox-empty.svg"}
               size={18}
               style={{ color: "var(--tertiary-color1)" }}
             />
@@ -138,6 +138,13 @@ const IndexerDashboard = ({}) => {
       setPageDisable(true);
     }
   }, [step]);
+
+  useEffect(() => {
+    if (!credentials.length) {
+      setActiveTab(2);
+      setStep(3);
+    }
+  }, [credentials]);
 
   const fetchPages = async (site) => {
     setFetchingPages(true);

@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import { accountMenuItems } from "./data";
-import { Link, useNavigate } from "react-router-dom";
-import { MdAccountBox } from "react-icons/md";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styles from "./aside.module.css";
-import { screens } from "../../screens";
 import { FaRegUserCircle } from "react-icons/fa";
 import useCombinedStore from "../../zustore/combinedStore";
-import { BiLogOutCircle } from "react-icons/bi";
-import Button from "../../components/Button/Button";
+import { IoMdLogOut } from "react-icons/io";
 
 function AccountMenu() {
   const pic = null;
@@ -19,25 +15,27 @@ function AccountMenu() {
   return (
     <div
       className={styles.accountMenuWrapper}
-      onClick={() => {
-        navigate(screens.account);
-      }}
+      // onClick={() => {
+      //   navigate(screens.account);
+      // }}
     >
       <FaRegUserCircle size={28} style={{ color: "var(--primary-color1)" }} />
 
-      <span className={styles.title}> {userInfo?.name}</span>
-
-      <div className={styles.accountMenu}>
+      <div className={styles.title}>
+        {userInfo?.name} :{" "}
         <div
-          className={styles.logoutCta}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             logoutRequest();
           }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <BiLogOutCircle size={20} />
-          Logout
+          <IoMdLogOut size={20} />
         </div>
       </div>
     </div>

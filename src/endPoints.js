@@ -24,4 +24,6 @@ export const endPoints = {
   addCredentials: "/api/auth/add-credentials",
   deleteCredentials: "/api/auth/delete-credentials",
   getCredentials: "/api/auth/get-credentials",
+
+  payment: "/api/subscription/create-session",
 };

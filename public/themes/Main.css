@@ -4,6 +4,7 @@
 
   --primary-color1-op01: rgba(140, 185, 189, 0.1);
   --secondary-color1: #092635;
+  --secondary-color1-op01: rgba(9, 38, 53, 0.1);
   --secondary-color2: #f53b57;
   --secondary-color3: #9ade7b;
   --tertiary-color1: rgb(100, 116, 139);
@@ -14,5 +15,5 @@
   --fw-reg: 400;
   --fw-med: 500;
   --fw-sb: 600;
-  --fw-b: 600;
+  --fw-b: 700;
 }
