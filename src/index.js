@@ -4,12 +4,18 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { PROD } from "./config/config";
 
 window.onstorage = (e) => {
   if (e.key == "token" && localStorage.getItem("token")) {
     window.location = "";
   }
 };
+
+if (PROD) {
+  window.console = null;
+}
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
