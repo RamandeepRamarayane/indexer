@@ -6,6 +6,7 @@ import Wrapper from "../components/Wrapper/Wrapper";
 import Logout from "../pages/Auth/Logout";
 import Indexer from "../pages/Indexer/Indexer";
 import useCombinedStore from "../zustore/combinedStore";
+import Subscriptions from "../pages/Subscription/Subscriptions";
 
 const ProtectedRoutes = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ const ProtectedRoutes = ({ children }) => {
         <Route path="" exact element={<Dashboard />} />
         <Route path="dashboard" exact element={<Dashboard />} />
         <Route path="indexer" element={<Indexer />} />
-        <Route path="about" exact element={<div>About </div>} />
+        <Route path="plans" exact element={<Subscriptions />} />
         <Route path="dashboard/logout" exact element={<Logout />} />
         <Route path="*" element={<Navigate to={"/dashboard"} replace />} />
       </Route>

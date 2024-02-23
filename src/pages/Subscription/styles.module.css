@@ -1,0 +1,78 @@
+.subsContainer {
+  width: 100%;
+}
+
+.subsContainer .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 38px;
+  font-weight: var(--fw-med);
+}
+
+.priceCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* PriceCard Starts */
+.priceCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 1px solid gray;
+  padding: 20px 20px 10px 20px;
+  min-height: 500px;
+  max-width: 250px;
+  background-color: var(--primary-color1-op01);
+}
+
+.planTitle {
+  font-weight: var(--fw-sb);
+  font-size: 26px;
+  color: var(--secondary-color1);
+}
+
+.priceWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ctaWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0px;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.featureWrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+
+/* PriceCard Ends */

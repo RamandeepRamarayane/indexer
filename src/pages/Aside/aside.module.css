@@ -1,30 +1,31 @@
 .accountMenu {
   /* width: 150px; */
   position: absolute;
-  bottom: 92%;
+  bottom: 96%;
   left: 10px;
   z-index: 50;
-  padding: 5px 10px 5px 5px;
-  border-radius: var(--border-radius-6x);
+  padding: 5px;
+  border-radius: 4px;
   border: 1px solid #e1e4ed;
   background: #fff;
   box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
   visibility: hidden;
+  min-width: 170px;
 }
 
-.accountMenu a {
+.accountMenu div {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 5px 10px;
+  gap: 10px;
+  padding: 5px;
   color: #2c3948 !important;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: var(--font-weight5);
   width: max-content;
 }
 
-.accountMenu a:hover,
-.accountMenu a:active {
+.accountMenu div:hover,
+.accountMenu div:active {
   color: var(--link-color1) !important;
 }
 
@@ -49,6 +50,8 @@
 .accountMenuWrapper .title {
   font-size: 16px;
   margin-left: 4px;
+
+  width: 100%;
 }
 
 .asideContainer {
@@ -176,7 +179,9 @@
 }
 
 .asideContainer:hover .title {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
@@ -191,7 +196,7 @@
   position: relative;
   white-space: nowrap;
   text-transform: capitalize;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .logo .title {
@@ -210,7 +215,7 @@
   padding: 2px 5px;
 }
 
-.logoutCta {
+.ctaWrap {
   display: flex;
   justify-content: flex-start;
   align-items: center;
