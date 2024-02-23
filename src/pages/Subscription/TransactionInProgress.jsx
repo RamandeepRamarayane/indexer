@@ -21,10 +21,8 @@ function TransactionInProgress() {
       navigate(screens.dashboard, { replace: true });
       document?.StripeInvoicePayment?.close();
     };
-    debugger;
 
     if (session_id) {
-      debugger;
       var timeout = setTimeout(() => {
         document.dispatchEvent(
           CustomAlertMessageEvent({
@@ -37,8 +35,6 @@ function TransactionInProgress() {
         navigate(screens.dashboard, { replace: true });
       }, 3000);
     } else if (document.StripeInvoicePayment) {
-      debugger;
-
       var interval = setInterval(() => {
         if (document.StripeInvoicePayment?.closed) {
           navigate(screens.dashboard, { replace: true });
@@ -46,8 +42,6 @@ function TransactionInProgress() {
         }
       }, 5000);
     } else if (failed) {
-      debugger;
-
       document.dispatchEvent(
         CustomAlertMessageEvent({
           duration: 3000,
