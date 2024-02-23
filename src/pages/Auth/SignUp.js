@@ -31,7 +31,11 @@ const SignUp = () => {
 
   return (
     <>
-      <form id="sign_up_form" onSubmit={(e) => e.preventDefault()}>
+      <form
+        id="sign_up_form"
+        onSubmit={(e) => e.preventDefault()}
+        style={{ width: "100%" }}
+      >
         <CustomTextField
           label=""
           placeholder={"Email address"}

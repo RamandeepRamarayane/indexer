@@ -43,7 +43,7 @@ export const useAuthStore = (set) => ({
   },
   signUpRequest: async ({ name, email, password, company, navigate }) => {
     set({ error: "" });
-    set({ userInfo: { userEmail: email, company, userName: name } });
+    set({ userInfo: { userEmail: email, company, userName: name, password } });
     const res = await postData({
       url: endPoints.register,
       payload: { email, password, companyName: company, name },

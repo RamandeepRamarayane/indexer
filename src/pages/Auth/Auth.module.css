@@ -101,146 +101,50 @@
 
 /* Verification Banner Starts */
 
-.formHeading {
-  font-size: 24px;
-  font-weight: var(--font-weight6);
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: var(--secondary-color2);
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.link1 {
-  font-size: 14px;
-  font-weight: var(--font-weight5);
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: var(--secondary-color2);
-  display: block;
-  text-align: center;
-  padding: 5px 0;
-  line-height: 20px;
-}
-.link1 a {
-  text-decoration: none;
-  color: var(--primary-color1);
-  font-size: 14px;
-  font-weight: var(--font-weight5);
-}
-
-.link2 {
-  font-size: 12px;
-  font-weight: var(--font-weight6);
-  color: var(--primary-color1);
-  cursor: pointer;
-}
-.forgotPassLink {
-  text-align: right;
-}
-
-.error {
-  color: red;
-  font-size: 11px;
-  margin-top: 0px;
-}
-.noError {
-  display: none;
-}
-
-.flex {
+.vbWrapper {
   display: flex;
-  color: var(--secondary-color);
-  font-size: 10px;
-  font-weight: var(--font-weight6);
-}
-.flex a {
-  color: var(--primary-color1);
-
-  text-decoration: unset;
-}
-
-.link2:hover {
-  text-decoration: underline;
-}
-
-.vbContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  width: 100%;
-  align-items: center;
-}
-
-.vcBrandIcon img {
-  height: 200px;
-  width: 40px;
+  justify-content: center;
+  background-color: var(--primary-color1-op01);
+  height: 100vh;
 }
 
 .vbTextContainer {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  background-color: var(--primary-color88);
   border-radius: 20px;
   padding: 20px;
   color: #4b4b55;
   align-items: center;
   max-width: 600px;
+  background-color: white;
+  height: max-content;
+  margin-top: 100px;
 }
 
-.vbTCTitle {
+.titleHead {
   font-size: 20px;
   font-weight: var(--font-weight6);
   text-align: center;
-  color: #4b4b55;
+  color: #c84c84;
   display: flex;
   align-items: center;
 }
 
-.vbTCSubtitle {
+.subText {
   font-size: 16px;
   color: #828b95;
   text-align: center;
   text-align: center;
 }
 
-.vbTCFooter {
-  font-size: 12px;
-  color: var(--secondary-color3);
-  margin-top: 40px;
+.footerNote {
+  font-size: 14px;
+  color: var(--secondary-color1);
+  margin-top: 30px;
   text-align: center;
+  font-weight: var(--fw-thin);
+  width: 70%;
 }
 
-.vbParentClass {
-  width: 600px !important;
-  padding: 0px !important;
-  padding-top: 20px !important;
-}
-
-.link {
-  font-size: 16px;
-  font-weight: var(--font-weight4);
-  margin-bottom: 15px;
-
-  color: var(--secondary-color2);
-}
-
-.link span {
-  color: var(--primary-color1);
-  font-weight: var(--font-weight5);
-  cursor: pointer;
-}
-
-@media only screen and (max-width: 600px) {
-  .vbParentClass {
-    width: unset !important;
-    padding: 20px !important;
-    /* padding-top: 20px !important; */
-  }
-}
 /* Verification Banner Ends */
