@@ -9,16 +9,11 @@ import useCombinedStore from "../zustore/combinedStore";
 import Subscriptions from "../pages/Subscription/Subscriptions";
 
 const ProtectedRoutes = ({ children }) => {
-  const [loading, setLoading] = useState(false);
   const { loginViaToken, isAuthenticated, logoutRequest } = useCombinedStore(
     (state) => state
   );
 
-  return loading ? (
-    <div>
-      <Progress />
-    </div>
-  ) : isAuthenticated ? (
+  return isAuthenticated ? (
     <Routes>
       <Route path="*" element={<Wrapper />}>
         <Route path="" exact element={<Dashboard />} />

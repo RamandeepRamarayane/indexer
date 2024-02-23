@@ -19,7 +19,6 @@ const Auth = () => {
   const isSignup = location.pathname.includes("/signup");
   console.log("zustand", isAuthenticated);
   const [loading, setLoading] = useState(false);
-  const loginViaToken = combinedStore((state) => state.loginViaToken);
   const navigate = useNavigate();
 
   return loading ? (

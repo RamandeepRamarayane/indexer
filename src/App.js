@@ -22,12 +22,13 @@ import { screens } from "./screens";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const { isAuthenticated, loginViaToken } = useCombinedStore((state) => state);
+  const { isAuthenticated, loginViaToken, skipLoginViaToken } =
+    useCombinedStore((state) => state);
   const navigate = useNavigate();
   useNetworkInterceptor();
 
   useEffect(() => {
-    loginViaToken({ navigate, setLoading });
+    if (!skipLoginViaToken) loginViaToken({ navigate, setLoading });
   }, []);
 
   return (
