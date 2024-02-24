@@ -96,10 +96,20 @@ const NoDomains = () => {
 
 const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
   const navigate = useNavigate();
-  const [isAutoIndex, setIsAutoIndex] = useState(false);
+  const [isAutoIndex, setIsAutoIndex] = useState(
+    site?.auto_index == 1 ? true : false
+  );
+
+  useEffect(() => {
+    if (site?.auto_index == 1) {
+      setIsAutoIndex(true);
+    } else {
+      setIsAutoIndex(false);
+    }
+  }, [site?.auto_index]);
+
   const syncIndexStatus = (e) => {
     console.log("syncIndexStatus", e.target.checked);
-    setIsAutoIndex(e.target.checked);
   };
   const siteHandler = (site) => {
     if (!site) return;
