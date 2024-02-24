@@ -40,7 +40,7 @@ const PriceCard = ({ plan = {} }) => {
             plan?.ctaHandler();
           }}
           loading={loading}
-          disabled={plan?.ctaDisabled}
+          disabled={plan?.isDisabled}
           width={"100%"}
         />
       </div>
