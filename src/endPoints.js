@@ -20,6 +20,7 @@ export const endPoints = {
   addSiteMap: "/api/sitemaps",
   syncSiteMap: "/api/sitemaps/sync",
   getSiteMaps: "/api/sitemaps",
+  deleteSiteMap: "/api/sitemaps/delete",
 
   //domain credential
   addCredentials: "/api/auth/add-credentials",

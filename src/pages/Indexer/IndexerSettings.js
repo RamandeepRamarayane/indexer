@@ -56,7 +56,9 @@ const ItemRow = ({
               //  delete sitemap
               setIsRemoving(true);
               removeItem(
-                isJson ? { fileName: item?.file_name } : { siteMap: item?.id },
+                isJson
+                  ? { fileName: item?.file_name }
+                  : { siteMap: item?.sitemap_url },
                 setIsRemoving
               );
             }}
@@ -198,19 +200,18 @@ export const IndexerSettings = ({
       return;
     }
 
-    if (fileName) {
-      const res = await getData({
-        url: `${endPoints.deleteCredentials}?domain_name=${domain}&file_name=${fileName}`,
-      });
-      if (res.status == 200) {
-        fetchLatest(domain);
-        setLoad(false);
-      } else {
-      }
+    const res = await getData({
+      url: `${
+        fileName ? endPoints.deleteCredentials : endPoints.deleteSiteMap
+      }?domain_name=${domain}&${fileName ? "file_name" : "sitemap_url"}=${
+        fileName ? fileName : siteMap
+      }`,
+    });
+    if (res.status == 200) {
+      fetchLatest(domain);
+      setLoad(false);
     } else {
-      setTimeout(() => {
-        setLoad(false);
-      }, 1000);
+      setLoad(false);
     }
   };
 
