@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const loginRequest = combinedStore((state) => state.loginRequest);
-  const [email, setEmail] = useState("rxy@test.com");
+  const [email, setEmail] = useState("raman@test.com");
   const [password, setPassword] = useState("R1234567");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
