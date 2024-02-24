@@ -66,7 +66,7 @@ const VerificationBanner = () => {
 
         <Button
           text={canResend ? "Resend Email" : `Resend in ${timer} seconds`}
-          disabled={!canResend}
+          disabled={!canResend || !userInfo?.password}
           handler={resendEmail}
           width="200px"
         />

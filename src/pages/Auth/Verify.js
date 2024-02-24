@@ -7,7 +7,7 @@ import combinedStore from "../../zustore/combinedStore";
 import Progress from "../../components/Progress/Progress";
 let apiCall = 0;
 const Verify = () => {
-  const { authSuccess } = combinedStore((state) => state);
+  const { authSuccess, loginViaToken } = combinedStore((state) => state);
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
   const _token = queryParams.get("token");
@@ -16,7 +16,8 @@ const Verify = () => {
       url: `${endPoints.verify}?token=${token}`,
     });
     if (res.status == 200 || res.status == 201) {
-      navigate(screens.login);
+      localStorage.setItem("token", res.data.tokens.access.token);
+      loginViaToken(screens.login);
     } else {
       navigate(screens.login);
     }
@@ -32,7 +33,7 @@ const Verify = () => {
     }
   }, []);
 
-  return <Progress width={"100%"} height={"100%"} />;
+  return <Progress width={"100%"} height={"100vh"} />;
 };
 
 export default Verify;
