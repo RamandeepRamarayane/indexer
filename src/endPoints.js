@@ -26,5 +26,8 @@ export const endPoints = {
   deleteCredentials: "/api/auth/delete-credentials",
   getCredentials: "/api/auth/get-credentials",
 
+  //plans
+  fetchUserPlan: "/api/user/plan",
+  fetchPlans: "/api/subscription/plans",
   payment: "/api/subscription/create-session",
 };
