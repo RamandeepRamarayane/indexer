@@ -39,7 +39,7 @@ const PriceCard = ({ plan = {} }) => {
             typeof plan?.ctaLoading === "boolean" && setLoading(true);
             plan?.ctaHandler();
           }}
-          loading={loading}
+          loading={loading || plan?.ctaLoading}
           disabled={plan?.isDisabled}
           width={"100%"}
         />
