@@ -207,7 +207,7 @@ const ConnectedSites = ({
           fetchedDomains.map((site) => {
             return (
               <ConnectedSitesRow
-                site={{ ...site, steps: 4 }}
+                site={site}
                 setDeleteDomain={setDeleteDomain}
               />
             );
