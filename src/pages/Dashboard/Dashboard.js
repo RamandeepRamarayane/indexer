@@ -7,8 +7,11 @@ import { AddWebsiteFlow } from "./AddWebsiteFlow";
 import { getData, postData } from "../../networkCalls";
 import { endPoints } from "../../endPoints";
 import useCombinedStore from "../../zustore/combinedStore";
+import usePlans from "../Subscription/usePlans";
+import { CustomTooltip } from "../../components/Tooltip/CustomTooltip";
 
 const Dashboard = () => {
+  const { userPlan } = usePlans({});
   const [addWSModal, setAddWSModal] = useState(false);
   const [deleteDomain, setDeleteDomain] = useState({ isShow: false, obj: {} });
   const [fetchedDomains, setFetchedDomains] = useState([
@@ -56,13 +59,27 @@ const Dashboard = () => {
   return (
     <div style={{ width: "100%" }}>
       <div className={styles.dashboardHeader}>
-        <Button
-          text={"Add a Website"}
-          handler={() => {
-            setAddWSModal(true);
-          }}
-          style={{ background: "var(--secondary-color1)" }}
-        />
+        <CustomTooltip
+          title={
+            userPlan?.available_domains == fetchedDomains?.length
+              ? "Max Limit Reached"
+              : null
+          }
+          arrow
+        >
+          <div>
+            <Button
+              text={`Add a Website : (${fetchedDomains?.length || 0}/${
+                userPlan?.available_domains || 0
+              })`}
+              handler={() => {
+                setAddWSModal(true);
+              }}
+              style={{ background: "var(--secondary-color1)" }}
+              disabled={userPlan?.available_domains == fetchedDomains?.length}
+            />
+          </div>
+        </CustomTooltip>
       </div>
       <ConnectedSites
         fetchedDomains={fetchedDomains}
