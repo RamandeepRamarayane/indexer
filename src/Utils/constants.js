@@ -37,6 +37,9 @@ export const removeDomain = (url) => {
   // Remove the trailing slash if present
   path = path.endsWith("/") ? path.slice(0, -1) : path;
 
+  if (!path.length) {
+    path = "/";
+  }
   return path;
 };
 

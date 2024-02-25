@@ -11,6 +11,7 @@ import { removeDomain, trimDomainName } from "../../Utils/constants";
 import CustomTextField from "../../components/CustomTextField/CustomTextField";
 import { IndexerSettings } from "./IndexerSettings";
 import Progress from "../../components/Progress/Progress";
+import moment from "moment";
 
 const DummyRows = [1, 2, 3, 4, 5];
 
@@ -28,15 +29,29 @@ const SkeletonRows = () => {
   });
 };
 
-const PageRow = ({ page = {}, idx = 0, indexPages = () => {} }) => {
+const PageRow = ({
+  page = {},
+  idx = 0,
+  indexPages = () => {},
+  handleChecks = () => {},
+}) => {
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    if (page?.checked) {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, [page?.checked]);
+
   return (
     <div className={styles.pageRowWrapper}>
       <div className={styles.itemCheckbox}>
         <Checkbox
           checked={checked}
           onChange={(e) => {
-            setChecked(!checked);
+            handleChecks({ id: page.id, isChecked: !checked });
           }}
           defaultChecked
           checkedIcon={
@@ -68,7 +83,14 @@ const PageRow = ({ page = {}, idx = 0, indexPages = () => {} }) => {
           {removeDomain(page.page)}
         </div>
       </div>
-      <div className={styles.itemStatus}>{page.status}</div>
+      <div className={styles.itemStatus}>
+        {page?.last_index_date
+          ? moment(page?.last_index_date).format("dd/mm/yyyy")
+          : "-"}
+      </div>
+      <div className={styles.itemStatus}>
+        {page.status == 2 ? "Indexed" : "Not  Indexed"}
+      </div>
       <div className={styles.itemCta}>
         <Button
           text={"Index"}
@@ -118,6 +140,7 @@ const IndexerDashboard = ({}) => {
   const [addCredential, setAddCredential] = useState("");
   const [domainInfo, setDomainInfo] = useState({});
   const [search, setSearch] = useState("");
+  const [isAllChecked, setIsAllChecked] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -148,6 +171,20 @@ const IndexerDashboard = ({}) => {
 
   console.log("debounceWrapper search", search);
 
+  useEffect(() => {
+    if (pages.length) {
+      setPages((ps) => {
+        let temp = [...ps];
+        temp = temp.map((pg) => {
+          let obj = { ...pg };
+          obj.checked = isAllChecked;
+          return obj;
+        });
+        return temp;
+      });
+    }
+  }, [isAllChecked]);
+
   const debouncedSearch = useCallback(
     debounce((e) => {
       const val = e.target?.value?.trim();
@@ -168,11 +205,13 @@ const IndexerDashboard = ({}) => {
     const res = await getData({ url: endPoints.getDomainInfo + site });
     if (res.status == 200) {
       // Set basic domainInfo
+      let tempStep = res.data?.result?.hasOwnProperty("steps")
+        ? res.data?.result?.steps
+        : 1;
+      tempStep = 4;
       setDomainInfo(res.data.result);
-      setStep(
-        res.data?.result?.hasOwnProperty("steps") ? res.data?.result?.steps : 1
-      );
-      if (res.data?.result?.steps == 4) {
+      setStep(tempStep);
+      if (tempStep == 4) {
         setActiveTab(1);
       }
 
@@ -205,11 +244,26 @@ const IndexerDashboard = ({}) => {
     setFetchingPages(false);
   };
 
-  const indexPages = async (ids = []) => {
+  const indexPages = async (ids = [], isChecked = false) => {
     let payload = {
       domain_name: domain,
       page_id: [...ids],
     };
+    if (isChecked) {
+      let temp = pages?.filter((pg) => (pg?.checked ? true : false));
+      if (!!temp.length) {
+        let _ids = [];
+        temp.forEach((fpg) => {
+          _ids.push(fpg?.id);
+        });
+        payload.page_id = [..._ids];
+      }
+    }
+
+    if (!payload.page_id.length) {
+      return;
+    }
+
     const res = await postData({ url: endPoints.indexPages, payload });
     if (res.status == 200 || res.status == 201) {
     } else {
@@ -236,6 +290,19 @@ const IndexerDashboard = ({}) => {
     } else {
       setCredentials([]);
     }
+  };
+
+  const handleChecks = (obj = { id: null, isChecked: false }) => {
+    setPages((ps) => {
+      let temp = [...ps];
+
+      let idx = temp.findIndex((itm) => itm.id == obj.id);
+      if (idx >= 0) {
+        temp[idx] = { ...temp[idx], checked: obj.isChecked };
+      }
+
+      return temp;
+    });
   };
 
   return loading ? (
@@ -302,9 +369,33 @@ const IndexerDashboard = ({}) => {
           </div>
           <div className={styles.pagesWrapper}>
             <div className={styles.pageHeadRow}>
-              <div className={styles.headCheckbox}></div>
+              <div className={styles.headCheckbox}>
+                <Checkbox
+                  checked={isAllChecked}
+                  onChange={(e) => {
+                    setIsAllChecked(!isAllChecked);
+                  }}
+                  defaultChecked
+                  checkedIcon={
+                    <SVGIcon
+                      src={"/assets/svg/checkbox-filled.svg"}
+                      size={18}
+                      style={{ color: "var(--primary-color1)" }}
+                    />
+                  }
+                  icon={
+                    <SVGIcon
+                      src={"/assets/svg/checkbox-empty.svg"}
+                      size={18}
+                      style={{ color: "var(--tertiary-color1)" }}
+                    />
+                  }
+                  size={"small"}
+                />
+              </div>
 
               <div className={styles.headPage}>Page</div>
+              <div className={styles.headStatus}>Last Indexed At</div>
               <div className={styles.headStatus}>Status</div>
               <div className={styles.headCta}>Action</div>
             </div>
@@ -319,6 +410,7 @@ const IndexerDashboard = ({}) => {
                       page={page}
                       idx={idx}
                       indexPages={indexPages}
+                      handleChecks={handleChecks}
                     />
                   );
                 })}

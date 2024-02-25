@@ -49,11 +49,14 @@ const usePlans = ({}) => {
   };
 
   const fetchPlans = async () => {
+    setLoading(true);
+
     const res = await getData({ url: endPoints.fetchPlans });
     if (res.status == 200) {
       setAllPlans([...res.data?.data.plans]);
     } else {
     }
+    setLoading(false);
   };
 
   const initiatePayment = async (planId) => {

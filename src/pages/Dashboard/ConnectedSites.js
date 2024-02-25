@@ -5,7 +5,7 @@ import styles from "./Dashboard.module.css";
 import { Skeleton, Switch, styled } from "@mui/material";
 import Button from "../../components/Button/Button";
 import { endPoints } from "../../endPoints";
-import { getData } from "../../networkCalls";
+import { getData, postData } from "../../networkCalls";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
 import Modal from "../../components/Modal/Modal";
 
@@ -101,15 +101,25 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
   );
 
   useEffect(() => {
-    if (site?.auto_index == 1) {
+    if (site?.auto_index == 1 && site.steps == 4) {
       setIsAutoIndex(true);
     } else {
       setIsAutoIndex(false);
     }
   }, [site?.auto_index]);
 
-  const syncIndexStatus = (e) => {
-    console.log("syncIndexStatus", e.target.checked);
+  const syncIndexStatus = async (e) => {
+    let val = e.target.checked || false;
+    let payload = {
+      domain_name: site?.domain_name,
+      status: val ? 1 : 0,
+    };
+    const res = await postData({ url: endPoints.autoIndexUpdate, payload });
+    if (res.status == 200) {
+      setIsAutoIndex(val);
+    } else {
+      setIsAutoIndex(!val);
+    }
   };
   const siteHandler = (site) => {
     if (!site) return;
@@ -132,9 +142,12 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
       <td>
         <div className={styles.autoIndexToggler}>
           <IOSSwitch
-            checked={site.steps == 4 ? isAutoIndex : false}
+            checked={isAutoIndex}
             onChange={syncIndexStatus}
-            inputProps={{ "aria-label": "controlled" }}
+            inputProps={{
+              "aria-label": "controlled",
+              disabled: site?.steps == 4 ? false : true,
+            }}
           />
         </div>
       </td>
