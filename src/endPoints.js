@@ -10,6 +10,7 @@ export const endPoints = {
   deleteDomains: "/api/domain/delete",
   getDomains: "/api/domain",
   getDomainInfo: "/api/domain/overview?domain_name=",
+  autoIndexUpdate: "/api/autoindex",
 
   // Pages
   getPages: "/api/pages?domain_name=",
