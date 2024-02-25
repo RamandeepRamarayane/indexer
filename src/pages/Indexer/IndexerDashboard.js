@@ -140,7 +140,7 @@ const IndexerDashboard = ({}) => {
   const [addCredential, setAddCredential] = useState("");
   const [domainInfo, setDomainInfo] = useState({});
   const [search, setSearch] = useState("");
-  const [isAllChecked, setIsAllChecked] = useState(true);
+  const [isAllChecked, setIsAllChecked] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
