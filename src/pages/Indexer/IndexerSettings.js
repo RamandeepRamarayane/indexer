@@ -148,8 +148,33 @@ export const IndexerSettings = ({
       reader.onload = (e) => {
         try {
           const jsonData = JSON.parse(e.target.result);
+          const {
+            auth_provider_x509_cert_url,
+            auth_uri,
+            client_email,
+            client_id,
+            client_x509_cert_url,
+            private_key,
+            private_key_id,
+            project_id,
+            token_uri,
+            type,
+            universe_domain,
+          } = jsonData;
           console.log("s jsonData", jsonData);
-          setCreds(jsonData);
+          setCreds({
+            type: type || "",
+            project_id: project_id || "",
+            private_key_id: private_key_id || "",
+            private_key: private_key || "",
+            client_email: client_email || "",
+            client_id: client_id || "",
+            auth_uri: auth_uri || "",
+            token_uri: token_uri || "",
+            auth_provider_x509_cert_url: auth_provider_x509_cert_url || "",
+            client_x509_cert_url: client_x509_cert_url || "",
+            universe_domain: universe_domain || "",
+          });
         } catch (error) {
           setErrJson("Error reading JSON file. Please make sure it is valid.");
           setCreds(null);
@@ -177,10 +202,10 @@ export const IndexerSettings = ({
 
   const addCredential = async () => {
     setLoading(true);
-    const credentials = { ...TEMP_CREDS };
+    const payload = { domain_name: domain, credentials: { ...creds } };
     const res = await postData({
       url: endPoints.addCredentials,
-      payload: { domain_name: domain, credentials },
+      payload,
     });
     if (res.status == 201 || res.status == 200) {
       setLoading(false);
