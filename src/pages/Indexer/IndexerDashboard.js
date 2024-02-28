@@ -361,16 +361,18 @@ const IndexerDashboard = ({}) => {
         <>
           <div className={styles.pagesHeader}>
             <div>Title</div>
-            <div className={styles.filterWrapper}>
-              <CustomTextField
-                props={{
-                  onChange: (e) => debouncedSearch(e),
-                }}
-                placeholder="Search Page"
-                label=""
-                disableUnderline
-              />
-            </div>
+            {false && (
+              <div className={styles.filterWrapper}>
+                <CustomTextField
+                  props={{
+                    onChange: (e) => debouncedSearch(e),
+                  }}
+                  placeholder="Search Page"
+                  label=""
+                  disableUnderline
+                />
+              </div>
+            )}
           </div>
           <div className={styles.pagesWrapper}>
             <div className={styles.pageHeadRow}>

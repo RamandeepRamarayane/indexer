@@ -8,6 +8,7 @@ import { endPoints } from "../../endPoints";
 import { getData, postData } from "../../networkCalls";
 import SVGIcon from "../../components/SVGIcon/SVGIcon";
 import Modal from "../../components/Modal/Modal";
+import Progress from "../../components/Progress/Progress";
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -96,19 +97,21 @@ const NoDomains = () => {
 
 const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
   const navigate = useNavigate();
+  const [updatingAutoIndex, setUpdatingAutoIndex] = useState(false);
   const [isAutoIndex, setIsAutoIndex] = useState(
-    site?.auto_index == 1 ? true : false
+    site?.autoindex_status == 1 ? true : false
   );
 
   useEffect(() => {
-    if (site?.auto_index == 1 && site.steps == 4) {
+    if (site?.autoindex_status == 1 && site.steps == 4) {
       setIsAutoIndex(true);
     } else {
       setIsAutoIndex(false);
     }
-  }, [site?.auto_index]);
+  }, [site?.autoindex_status]);
 
   const syncIndexStatus = async (e) => {
+    setUpdatingAutoIndex(true);
     let val = e.target.checked || false;
     let payload = {
       domain_name: site?.domain_name,
@@ -120,6 +123,7 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
     } else {
       setIsAutoIndex(!val);
     }
+    setUpdatingAutoIndex(false);
   };
   const siteHandler = (site) => {
     if (!site) return;
@@ -141,14 +145,18 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
       </td>
       <td>
         <div className={styles.autoIndexToggler}>
-          <IOSSwitch
-            checked={isAutoIndex}
-            onChange={syncIndexStatus}
-            inputProps={{
-              "aria-label": "controlled",
-              disabled: site?.steps == 4 ? false : true,
-            }}
-          />
+          {updatingAutoIndex ? (
+            <Progress height={"20px"} width={"20px"} circleSize={16} />
+          ) : (
+            <IOSSwitch
+              checked={isAutoIndex}
+              onChange={syncIndexStatus}
+              inputProps={{
+                "aria-label": "controlled",
+                disabled: site?.steps == 4 ? updatingAutoIndex || false : true,
+              }}
+            />
+          )}
         </div>
       </td>
       <td className={styles.rowCtas}>

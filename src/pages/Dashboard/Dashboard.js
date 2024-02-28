@@ -75,6 +75,8 @@ const Dashboard = () => {
               handler={() => {
                 setAddWSModal(true);
               }}
+              width={180}
+              loading={loading}
               style={{ background: "var(--secondary-color1)" }}
               disabled={userPlan?.available_domains == fetchedDomains?.length}
             />
