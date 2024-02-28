@@ -211,9 +211,14 @@
   height: max-content !important;
 }
 .filterWrapper input {
-  border: 1px solid var(--tertiary-color1);
-  padding: 2px 4px;
+  border: 1px solid var(--tertiary-color3);
+  padding: 4px 8px;
   border-radius: 4px;
+}
+
+.filterWrapper input:active,
+.filterWrapper input:focus {
+  border: 1px solid var(--tertiary-color2);
 }
 
 .settingSection {

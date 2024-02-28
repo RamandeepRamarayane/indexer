@@ -6,7 +6,12 @@ import Aside from "../../pages/Aside/Aside";
 
 const Wrapper = () => {
   return (
-    <div style={{ width: "100%", display: "flex" }}>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+      }}
+    >
       <Aside />
       <Outlet />
     </div>
