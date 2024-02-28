@@ -85,7 +85,7 @@ const PageRow = ({
       </div>
       <div className={styles.itemStatus}>
         {page?.last_index_date
-          ? moment(page?.last_index_date).format("dd/mm/yyyy")
+          ? moment(page?.last_index_date).format("DD MMM, yyyy")
           : "-"}
       </div>
       <div className={styles.itemStatus}>
@@ -208,7 +208,6 @@ const IndexerDashboard = ({}) => {
       let tempStep = res.data?.result?.hasOwnProperty("steps")
         ? res.data?.result?.steps
         : 1;
-      tempStep = 4;
       setDomainInfo(res.data.result);
       setStep(tempStep);
       if (tempStep == 4) {
@@ -229,6 +228,12 @@ const IndexerDashboard = ({}) => {
     setFetchingPages(true);
     const res = await getData({ url: endPoints.getPages + site });
     if (res.status == 200) {
+      let tempStep = res.data?.hasOwnProperty("steps") ? res.data?.steps : 1;
+      setDomainInfo(res.data.result);
+      setStep(tempStep);
+      if (tempStep == 4) {
+        setActiveTab(1);
+      }
       if (!!res.data.pages.length) {
         setPages([...res.data.pages]);
         setTotalPages(res.data.totalPages || 0);
