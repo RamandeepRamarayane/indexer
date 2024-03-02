@@ -1,18 +1,26 @@
 :root {
-  /* --primary-color1: rgb(140, 185, 189); */
-  --primary-color1: #43766c;
-  --primary-color1-op01: #8cb9bd1a;
-  --secondary-color1: #092635;
-  --secondary-color1-op01: rgba(9, 38, 53, 0.1);
+  --primary-color1: #19155a;
+  --primary-color1-op05: rgba(25, 21, 90, 0.5);
+  --primary-color1-op01: rgba(25, 21, 90, 0.1);
+  --secondary-color1: rgb(147, 104, 183);
+  --secondary-color1-op05: rgba(147, 104, 183, 0.5);
+  --secondary-color1-op01: rgba(147, 104, 183, 0.1);
   --secondary-color2: #f53b57;
+  --secondary-color2-op01: rgba(245, 59, 87, 0.1);
   --secondary-color3: #9ade7b;
-  --secondary-color4: #c84c84;
-  --secondary-color4-op01: rgba(200, 76, 132, 0.1);
+  --secondary-color4: rgba(132, 199, 208, 1);
+  --secondary-color4-op05: rgba(132, 199, 208, 0.5);
+  --secondary-color4-op01: rgba(132, 199, 208, 0.1);
   --tertiary-color1: rgb(100, 116, 139);
   --tertiary-color1-op02: rgb(100, 116, 139, 0.2);
-  --tertiary-color2: #6b6b6b;
   --tertiary-color3: #d8d8d8;
   --tertiary-color4: #dddfe2;
+  --tertiary-color5: #ebebeb;
+  --color-white: #fff;
+  --color-black: #000;
+  --bg-color1: rgba(44, 139, 126, 0);
+  --link-color1: rgba(147, 104, 183, 1);
+  --link-color1-op01: rgba(147, 104, 183, 0.1);
   --fw-thin: 300;
   --fw-reg: 400;
   --fw-med: 500;

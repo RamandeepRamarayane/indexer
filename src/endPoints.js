@@ -11,7 +11,7 @@ export const endPoints = {
   getDomains: "/api/domain",
   getDomainInfo: "/api/domain/overview?domain_name=",
   autoIndexUpdate: "/api/autoindex",
-
+  overview: "/api/user/overview",
   // Pages
   getPages: "/api/pages?domain_name=",
   addPages: "/api/pages",

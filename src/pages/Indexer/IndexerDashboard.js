@@ -83,12 +83,14 @@ const PageRow = ({
           {removeDomain(page.page)}
         </div>
       </div>
-      <div className={styles.itemStatus}>
+      <div className={styles.itemIndexDoc}>
         {page?.last_index_date
           ? moment(page?.last_index_date).format("DD MMM, yyyy")
           : "-"}
       </div>
-      <div className={styles.itemStatus}>
+      <div
+        className={`${styles.itemStatus} ${page.status == 2 && styles.indexed}`}
+      >
         {page.status == 2 ? "Indexed" : "Not  Indexed"}
       </div>
       <div className={styles.itemCta}>
@@ -99,6 +101,9 @@ const PageRow = ({
             e.preventDefault();
             e.stopPropagation();
             indexPages([page.id]);
+          }}
+          style={{
+            background: "var(--secondary-color1)",
           }}
         />
       </div>
@@ -360,19 +365,18 @@ const IndexerDashboard = ({}) => {
       {activeTab == 1 && (
         <>
           <div className={styles.pagesHeader}>
-            <div>Title</div>
-            {false && (
-              <div className={styles.filterWrapper}>
-                <CustomTextField
-                  props={{
-                    onChange: (e) => debouncedSearch(e),
-                  }}
-                  placeholder="Search Page"
-                  label=""
-                  disableUnderline
-                />
-              </div>
-            )}
+            <div className={styles.pagesTitle}>Pages</div>
+
+            <div className={styles.filterWrapper}>
+              <CustomTextField
+                props={{
+                  onChange: (e) => debouncedSearch(e),
+                }}
+                placeholder="Search Page"
+                label=""
+                disableUnderline
+              />
+            </div>
           </div>
           <div className={styles.pagesWrapper}>
             <div className={styles.pageHeadRow}>
@@ -402,9 +406,9 @@ const IndexerDashboard = ({}) => {
               </div>
 
               <div className={styles.headPage}>Page</div>
-              <div className={styles.headStatus}>Last Indexed At</div>
+              <div className={styles.headIndexDoc}>Last Indexed At</div>
               <div className={styles.headStatus}>Status</div>
-              <div className={styles.headCta}>Action</div>
+              <div className={styles.headCta}></div>
             </div>
             {loading ? (
               <SkeletonRows />
@@ -442,7 +446,22 @@ const IndexerDashboard = ({}) => {
           <div className={styles.settingHeader}>Settings</div>
           <IndexerSettings
             sectionName={"Sitemaps"}
-            arr={sitemaps}
+            arr={[
+              ...sitemaps,
+              ...sitemaps,
+              ...sitemaps,
+              ...sitemaps,
+              ...sitemaps,
+              ,
+              ...sitemaps,
+              ,
+              ...sitemaps,
+              ,
+              ...sitemaps,
+              ...sitemaps,
+              ...sitemaps,
+              ...sitemaps,
+            ]}
             input={domainSitemap}
             setInput={setDomainSitemap}
             errDomainName={errDomainName}
@@ -452,7 +471,16 @@ const IndexerDashboard = ({}) => {
           />
           <IndexerSettings
             sectionName={"Credential"}
-            arr={credentials}
+            arr={[
+              ...credentials,
+              ...credentials,
+              ...credentials,
+              ...credentials,
+              ...credentials,
+              ...credentials,
+              ...credentials,
+              ...credentials,
+            ]}
             input={file}
             setInput={setFile}
             errDomainName={errDomainName}

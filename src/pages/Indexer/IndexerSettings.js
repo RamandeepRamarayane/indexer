@@ -17,64 +17,58 @@ const ItemRow = ({
   const [isRemoving, setIsRemoving] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   return (
-    <tr className={styles.itemRowWrapper}>
-      <td>
-        <div className={styles.itemName}>
+    <div className={styles.sRowWrapper}>
+      <div className={styles.sItemName}>
+        <div className={styles.nameWrapper}>
           {isJson ? item?.file_name : item?.sitemap_url}
         </div>
-      </td>
-      <td className={styles.rowCtas}>
-        <div className={styles.ctaWrapper}>
-          {!isJson && (
-            <Button
-              text={""}
-              handler={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsSyncing(true);
-                initiateDomainSync(
-                  { siteMap: item?.sitemap_url },
-                  setIsSyncing
-                );
-              }}
-              height={28}
-              width={28}
-              loading={isSyncing}
-              Icon={() => <SVGIcon src={"/assets/svg/sync.svg"} size={16} />}
-              style={{
-                color: "var(--secondary-color1)",
-                background: "white",
-                border: "1px solid var(--secondary-color1)",
-              }}
-            />
-          )}
+      </div>
+      <div className={styles.ctaWrapper}>
+        {!isJson && (
           <Button
             text={""}
             handler={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              //  delete sitemap
-              setIsRemoving(true);
-              removeItem(
-                isJson
-                  ? { fileName: item?.file_name }
-                  : { siteMap: item?.sitemap_url },
-                setIsRemoving
-              );
+              setIsSyncing(true);
+              initiateDomainSync({ siteMap: item?.sitemap_url }, setIsSyncing);
             }}
-            loading={isRemoving}
             height={28}
             width={28}
-            Icon={() => <SVGIcon src={"/assets/svg/deleteBin.svg"} size={24} />}
+            loading={isSyncing}
+            Icon={() => <SVGIcon src={"/assets/svg/sync.svg"} size={16} />}
             style={{
-              color: "var(--secondary-color2)",
+              color: "var(--secondary-color1)",
               background: "white",
-              border: "1px solid var(--secondary-color2)",
+              border: "1px solid var(--secondary-color1)",
             }}
           />
-        </div>
-      </td>
-    </tr>
+        )}
+        <Button
+          text={""}
+          handler={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            //  delete sitemap
+            setIsRemoving(true);
+            removeItem(
+              isJson
+                ? { fileName: item?.file_name }
+                : { siteMap: item?.sitemap_url },
+              setIsRemoving
+            );
+          }}
+          loading={isRemoving}
+          height={28}
+          width={28}
+          Icon={() => <SVGIcon src={"/assets/svg/deleteBin.svg"} size={24} />}
+          style={{
+            color: "var(--secondary-color2)",
+            background: "var(--secondary-color2-op01)",
+          }}
+        />
+      </div>
+    </div>
   );
 };
 export const IndexerSettings = ({
@@ -243,42 +237,35 @@ export const IndexerSettings = ({
   return (
     <>
       <div className={`${styles.settingSection} ${styles.sectionSitemap}`}>
-        <div className={styles.sectionHeader}>
-          <SVGIcon
-            src={"/assets/svg/leftIndent.svg"}
-            style={{ color: "inherit" }}
-            size={24}
-          />
-          {sectionName}
-        </div>
+        <div className={styles.sectionHeader}>{sectionName}</div>
         {!!arr.length ? (
-          <div className={styles.siteMaps}>
-            <table>
-              <thead>
-                <tr>
-                  <th>{isJson ? "Credential" : "Sitemap"}</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {arr.map((itm) => {
-                  return (
-                    <ItemRow
-                      item={itm}
-                      isJson={isJson}
-                      initiateDomainSync={initiateDomainSync}
-                      removeItem={removeItem}
-                    />
-                  );
-                })}
-              </tbody>
-            </table>
+          <div className={styles.sTableWrapper}>
+            <div className={styles.sHeadWrapper}>
+              <div className={styles.sHeadName}>
+                {isJson ? "Credential" : "Sitemap"}
+              </div>
+              <div className={styles.headCtas}></div>
+            </div>
+            <div className={styles.sRowsContainer}>
+              {arr.map((itm) => {
+                return (
+                  <ItemRow
+                    item={itm}
+                    isJson={isJson}
+                    initiateDomainSync={initiateDomainSync}
+                    removeItem={removeItem}
+                  />
+                );
+              })}
+            </div>
           </div>
         ) : (
           <div className={styles.siteMapsEmpty}>No {sectionName} found</div>
         )}
         <div className={styles.inputs}>
-          <div style={{ width: "max-content" }}>
+          <div
+            style={{ width: "max-content", color: "var(--secondary-color1)" }}
+          >
             {isJson ? "Add Credential" : "Add SiteMap"} :{" "}
           </div>
           <div>
@@ -296,6 +283,9 @@ export const IndexerSettings = ({
                   disabled={!file}
                   height={28}
                   loading={loading}
+                  style={{
+                    background: "var(--secondary-color1)",
+                  }}
                 />
               </div>
             ) : (
@@ -323,6 +313,9 @@ export const IndexerSettings = ({
                     disabled={!siteMap.length}
                     height={28}
                     loading={loading}
+                    style={{
+                      background: "var(--secondary-color1)",
+                    }}
                   />
                 </div>
                 {!!syncStatus?.msg?.length && (

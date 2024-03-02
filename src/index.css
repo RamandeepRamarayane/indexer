@@ -10,7 +10,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--tertiary-color1-op02);
+  background-color: var(--secondary-color4-op05);
+
   border-radius: 10px; /* Set the color of the scrollbar thumb */
 }
 
