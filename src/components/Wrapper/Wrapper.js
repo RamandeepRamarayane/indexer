@@ -10,6 +10,7 @@ const Wrapper = () => {
       style={{
         width: "100%",
         display: "flex",
+        background: "var(--bg-color1)",
       }}
     >
       <Aside />

@@ -24,7 +24,7 @@ const IOSSwitch = styled((props) => (
       transform: "translateX(16px)",
       color: "#fff",
       "& + .MuiSwitch-track": {
-        backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+        backgroundColor: "var(--secondary-color1)",
         opacity: 1,
         border: 0,
       },
@@ -78,20 +78,18 @@ const SkeletonRows = () => {
 
 const NoDomains = () => {
   return (
-    <tr className={styles.siteRowWrapperEmpty} style={{ cursor: "default" }}>
-      <td colSpan={10}>
-        <div className={styles.noDomainsWrapper}>
-          <div className={styles.emptyIcon}>
-            <SVGIcon
-              src={"/assets/svg/emptyData.svg"}
-              size={80}
-              style={{ color: "inherit" }}
-            />
-          </div>
-          No Connected Domains
+    <div className={styles.siteRowWrapperEmpty} style={{ cursor: "default" }}>
+      <div className={styles.noDomainsWrapper}>
+        <div className={styles.emptyIcon}>
+          <SVGIcon
+            src={"/assets/svg/emptyData.svg"}
+            size={80}
+            style={{ color: "inherit" }}
+          />
         </div>
-      </td>
-    </tr>
+        No Connected Domains
+      </div>
+    </div>
   );
 };
 
@@ -130,8 +128,8 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
     navigate(screens.indexer + "?domain_name=" + site);
   };
   return (
-    <tr className={styles.siteRowWrapper}>
-      <td>
+    <div className={styles.rowWrapper}>
+      <div className={styles.rowName}>
         <div
           onClick={(e) => {
             e.preventDefault();
@@ -142,8 +140,8 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
         >
           {site.domain_name}
         </div>
-      </td>
-      <td>
+      </div>
+      <div className={styles.rowAutoIdx}>
         <div className={styles.autoIndexToggler}>
           {updatingAutoIndex ? (
             <Progress height={"20px"} width={"20px"} circleSize={16} />
@@ -158,8 +156,8 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
             />
           )}
         </div>
-      </td>
-      <td className={styles.rowCtas}>
+      </div>
+      <div className={styles.rowCtas}>
         <div className={styles.ctaWrapper}>
           <Button
             text={site?.steps == 4 ? "Details" : "Setup"}
@@ -169,7 +167,10 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
               siteHandler(site.domain_name);
             }}
             style={{
-              background: site?.steps == 4 ? "" : "var(--tertiary-color1)",
+              background:
+                site?.steps == 4
+                  ? "var(--secondary-color1)"
+                  : "var(--secondary-color1-op05)",
             }}
             width={"100px"}
           />
@@ -183,12 +184,12 @@ const ConnectedSitesRow = ({ site = {}, setDeleteDomain = () => {} }) => {
             Icon={() => <SVGIcon src={"/assets/svg/deleteBin.svg"} size={24} />}
             style={{
               color: "var(--secondary-color2)",
-              background: "white",
+              background: "transparent",
             }}
           />
         </div>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 
@@ -202,15 +203,13 @@ const ConnectedSites = ({
   return loading ? (
     <SkeletonRows />
   ) : (
-    <table className={styles.connectedSitesTable}>
-      <thead>
-        <tr>
-          <th>Domain</th>
-          <th className={styles.headCtas}>Auto Index</th>
-          <th className={styles.headCtas}>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className={styles.connectedSitesTable}>
+      <div className={styles.headRowWrapper}>
+        <div className={styles.headName}>Domain</div>
+        <div className={styles.headAutoIdx}>Auto Index</div>
+        <div className={styles.headCtas}>Actions</div>
+      </div>
+      <div className={styles.rowsContainer}>
         {!!fetchedDomains.length ? (
           fetchedDomains.map((site) => {
             return (
@@ -223,8 +222,8 @@ const ConnectedSites = ({
         ) : (
           <NoDomains />
         )}
-      </tbody>
-    </table>
+      </div>
+    </div>
   );
 };
 

@@ -1,9 +1,43 @@
 .dashboardHeader {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   padding: 10px 10px;
+  width: 80%;
+  margin: auto;
+}
+
+.overviewWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.overviewWrapper .overviewCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--secondary-color1);
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--color-white);
+  box-shadow: 1px 1px 10px 2px var(--secondary-color1-op01);
+}
+
+.overviewCard .cardTitle {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: var(--secondary-color1);
+}
+
+.overviewCard .cardValue {
+  font-size: 24px;
+  font-weight: 400;
 }
 
 .dashboardMeta {
@@ -165,6 +199,7 @@
   font-weight: 400;
   padding-top: 40px;
   color: var(--tertiary-color1);
+  padding-bottom: 40px;
 }
 
 .emptyIcon {
@@ -177,48 +212,80 @@
 .connectedSitesTable {
   width: 80%;
   margin: auto;
-  margin-top: 20px;
-  border-collapse: collapse;
-  border-radius: 4px;
+  border: 1px solid var(--secondary-color4-op05);
+  border-radius: 10px;
   overflow: hidden;
 }
 
-.connectedSitesTable thead {
-  background: #acb3bf1a;
-  border-bottom: 1px solid var(--tertiary-color3);
-}
-
-.connectedSitesTable thead th {
-  padding: 4px 10px;
+.headRowWrapper {
+  display: flex;
   height: 30px;
+  background-color: var(--secondary-color4-op05);
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-weight: 600;
+  color: var(--primary-color1);
 }
 
-.connectedSitesTable tr th:first-child,
-.connectedSitesTable tr td:first-child {
-  text-align: left;
+.rowsContainer {
+  max-height: calc(100vh - 250px);
+  overflow: auto;
 }
 
-.siteRowWrapper {
+.rowWrapper {
+  display: flex;
   cursor: pointer;
-  border-radius: 4px;
   border-bottom: 1px solid var(--tertiary-color3);
+  min-height: 50px;
+}
+.rowWrapper:last-child {
+  border: none;
+}
+
+.headName,
+.rowName {
+  width: 40%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px 10px;
 }
 
 .domainName {
-  min-height: 40px;
+  min-height: 50px;
   display: flex;
   align-items: center;
-  padding: 10px;
+  color: var(--primary-color1);
+  font-size: 18px;
 }
 
-.headCtas {
-  width: 200px;
+.domainName:hover {
+  color: var(--secondary-color1);
+}
+
+.headAutoIdx,
+.rowAutoIdx {
+  width: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 10px;
 }
 
 .autoIndexToggler {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.headCtas,
+.rowCtas {
+  width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 10px;
 }
 
 .ctaWrapper {

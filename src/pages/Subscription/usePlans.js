@@ -146,7 +146,7 @@ const usePlans = ({}) => {
       priceView: getCurrencySign(LtdPlan?.currency) + LtdPlan?.price,
       ctaBorder: "var(--primary-color1)",
       ctaBg: "var(--primary-color1)",
-      ctaColor: "#fff",
+      ctaColor: "var(--color-white)",
       ctaText:
         userPlan.plan_id == LtdPlan?.plan_id ? "Current Plan" : "Upgrade",
       ctaHandler: () => initiatePayment(LtdPlan?.plan_id),

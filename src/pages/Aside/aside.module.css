@@ -64,7 +64,8 @@
   align-items: center;
   z-index: 100;
   height: 100vh;
-  position: relative;
+  position: sticky;
+  top: 0px;
 }
 
 .logo {
@@ -78,7 +79,7 @@
 .asideContainer a {
   text-decoration: none;
   color: unset;
-  color: rgba(0, 0, 0, 0.65);
+  color: var(--secondary-color4);
 }
 
 .navLinks {
@@ -139,13 +140,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--primary-color88);
+  background-color: var(--color-white);
   min-width: 70px;
   max-width: 70px;
   align-items: flex-start;
   transition: all 300ms;
   overflow: hidden;
-
+  color: var(--primary-color1);
   box-shadow: 5px 10px 4px 0 rgba(161, 161, 169, 0.12941176470588237);
 }
 

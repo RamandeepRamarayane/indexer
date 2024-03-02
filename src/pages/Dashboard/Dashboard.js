@@ -13,6 +13,7 @@ import { CustomTooltip } from "../../components/Tooltip/CustomTooltip";
 const Dashboard = () => {
   const { userPlan } = usePlans({});
   const [addWSModal, setAddWSModal] = useState(false);
+  const [overview, setOverview] = useState({});
   const [deleteDomain, setDeleteDomain] = useState({ isShow: false, obj: {} });
   const [fetchedDomains, setFetchedDomains] = useState([
     {
@@ -29,6 +30,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchDomains();
+    fetchOverview();
   }, []);
   const fetchDomains = async () => {
     const res = await getData({ url: endPoints.getDomains });
@@ -42,6 +44,15 @@ const Dashboard = () => {
       setFetchedDomains([]);
     }
     setLoading(false);
+  };
+
+  const fetchOverview = async () => {
+    const res = await getData({ url: endPoints.overview });
+    if (res.status == 200) {
+      setOverview(res.data);
+    } else {
+      setOverview({});
+    }
   };
   const deleteModal = async (domainName) => {
     setLoading(true);
@@ -59,6 +70,18 @@ const Dashboard = () => {
   return (
     <div style={{ width: "100%" }}>
       <div className={styles.dashboardHeader}>
+        <div className={styles.overviewWrapper}>
+          <div className={styles.overviewCard}>
+            <div className={styles.cardTitle}>Connected Domains</div>
+            <div className={styles.cardValue}>
+              {overview?.totalDomains || 0}
+            </div>
+          </div>
+          <div className={styles.overviewCard}>
+            <div className={styles.cardTitle}>Total Pages</div>
+            <div className={styles.cardValue}>{overview?.totalPages || 0}</div>
+          </div>
+        </div>
         <CustomTooltip
           title={
             userPlan?.available_domains == fetchedDomains?.length
@@ -77,7 +100,6 @@ const Dashboard = () => {
               }}
               width={180}
               loading={loading}
-              style={{ background: "var(--secondary-color1)" }}
               disabled={userPlan?.available_domains == fetchedDomains?.length}
             />
           </div>
